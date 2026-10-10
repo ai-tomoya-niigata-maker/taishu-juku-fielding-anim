@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>動く図｜6ゾーン｜体修塾ゴロ捕球の教科書</title>
+<style>
+  :root{
+    --bg:#0d1b2a; --bg2:#0a0e1a; --card:#111827; --border:#1e3a5f;
+    --gold:#d4af37; --gold2:#f6c90e; --text:#f8fafc; --body:#e2e8f0; --sub:#94a3b8; --blue:#7dd3fc; --red:#ef4444;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:linear-gradient(180deg,var(--bg2),var(--bg));color:var(--body);
+    font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",Meiryo,sans-serif;line-height:1.8;min-height:100vh}
+  .wrap{max-width:960px;margin:0 auto;padding:28px 16px 60px}
+  .label{font-size:12px;letter-spacing:.3em;color:var(--gold);font-weight:800;text-align:center}
+  h1{text-align:center;font-size:clamp(22px,4.6vw,30px);font-weight:900;color:var(--text);margin:4px 0}
+  .lead{text-align:center;color:var(--sub);font-size:14px;margin-bottom:16px}
+
+  .zonebar{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:12px}
+  .zbtn{--g:#94a3b8;font:inherit;cursor:pointer;border-radius:12px;padding:10px 4px 8px;text-align:center;background:var(--card);border:1px solid var(--border);border-top:4px solid var(--g);color:var(--sub)}
+  .zbtn.g12{--g:#10b981} .zbtn.g34{--g:#d4af37} .zbtn.g56{--g:#8b5cf6}
+  .zbtn b{display:block;font-size:24px;line-height:1;color:var(--g);font-weight:900;opacity:.75}
+  .zbtn small{font-size:11px}
+  .zbtn.on{border-color:var(--g);background:color-mix(in srgb,var(--g) 22%,var(--card));box-shadow:0 0 0 2px var(--g) inset}
+  .zbtn.on b{opacity:1;color:#fff}
+  .groups{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:-4px 0 12px}
+  .groups div{font-size:12px;text-align:center;border-radius:10px;padding:6px 4px;font-weight:800;line-height:1.4}
+  .groups .g12{background:rgba(16,185,129,.14);color:#6ee7b7}
+  .groups .g34{background:rgba(212,175,55,.14);color:#f0d77a}
+  .groups .g56{background:rgba(139,92,246,.16);color:#c4b5fd}
+  .zbtn:disabled{opacity:.4;cursor:not-allowed}
+  @media (max-width:720px){ .groups div{font-size:10.5px} }
+
+  .info{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+  .info > div{background:var(--card);border-radius:12px;padding:10px 12px;border-top:3px solid var(--border)}
+  .info .k{font-size:11px;letter-spacing:.16em;color:var(--gold);font-weight:800}
+  .info .v{font-size:14.5px;font-weight:800;color:var(--text);line-height:1.5}
+
+  .caption{min-height:56px;margin:0 0 12px;padding:12px 18px;border-radius:14px;background:var(--card);border-left:5px solid var(--gold)}
+  .caption .txt{font-size:clamp(16px,3.4vw,19px);font-weight:900;color:var(--text);line-height:1.5}
+
+  .stage{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .panel{background:var(--card);border-radius:16px;border:1px solid var(--border);padding:10px 10px 6px}
+  .panel .pt{font-size:12px;letter-spacing:.16em;color:var(--sub);font-weight:700;padding:2px 6px 6px}
+  .panel svg{display:block;width:100%;height:auto}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;font-size:12.5px;color:var(--sub);margin-top:8px}
+  .legend i{display:inline-block;width:12px;height:12px;border-radius:50%;vertical-align:-1px;margin-right:5px}
+
+  .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;margin-top:14px}
+  .group{display:flex;gap:6px;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:6px 8px;flex-wrap:wrap}
+  .group span{font-size:12px;color:var(--sub);padding:0 4px;letter-spacing:.08em}
+  button.b{font:inherit;font-size:14px;font-weight:800;color:var(--text);background:#0b1424;border:1px solid var(--border);border-radius:8px;padding:7px 12px;cursor:pointer}
+  button.b.on{background:var(--gold);color:#0a0e1a;border-color:var(--gold)}
+  button:focus-visible{outline:2px solid var(--gold2);outline-offset:2px}
+  @media (max-width:720px){ .stage{grid-template-columns:1fr} .info{grid-template-columns:1fr 1fr} .zbtn b{font-size:20px} }
+  html.embed body{min-height:0}
+  html.embed .wrap{padding-top:8px;padding-bottom:12px}
+  html.embed .wrap > .label, html.embed .wrap > h1, html.embed .wrap > .lead{display:none}
+  html.shot .controls, html.shot .timeline, html.shot .notes, html.shot .wrap > .label, html.shot .wrap > h1, html.shot .wrap > .lead{display:none}
+  html.shot .wrap{padding:10px 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="label">MOVING FIGURE｜PHASE 5</div>
+  <h1>6ゾーン｜出会うパターン</h1>
+  <p class="lead">ヘソの向きにグラブがあれば、すべて正面。ゾーンを選んで、捕る形を見てみましょう。（右投げ）</p>
+
+  <div class="zonebar" id="zonebar"></div>
+  <div class="groups"><div class="g12">1・2｜フォア側<br>グラブだけが軌道へ</div><div class="g34">3・4｜従来の正面<br>軌道が両足の幅の中</div><div class="g56">5・6｜バック側<br>グラブだけが軌道へ</div></div>
+
+  <div class="info">
+    <div><div class="k">ゴロ軌道</div><div class="v" id="iTraj">-</div></div>
+    <div><div class="k">足の形</div><div class="v" id="iFeet">-</div></div>
+    <div><div class="k">グラブの位置</div><div class="v" id="iGlove">-</div></div>
+    <div><div class="k">捕り方</div><div class="v" id="iCatch">-</div></div>
+  </div>
+
+  <div class="caption" aria-live="polite"><div class="txt" id="capTxt">-</div></div>
+
+  <div class="stage">
+    <div class="panel"><div class="pt">上から見た図（選手の後ろ側から）</div><svg id="top" viewBox="40 40 520 340" role="img" aria-label="上から見たゾーンと足とグラブの位置"></svg></div>
+    <div class="panel"><div class="pt">前から見た図（ホーム側から）</div><svg id="front" viewBox="20 75 320 290" role="img" aria-label="前から見た捕球の姿勢"></svg></div>
+  </div>
+  <div class="legend">
+    <span><i style="background:#ef4444"></i>右足</span><span><i style="background:#3b82f6"></i>左足</span>
+    <span><i style="background:#f6c90e"></i>ヘソの向き</span><span><i style="background:#8b5a2b"></i>グラブ</span>
+    <span><i style="background:#ffffff;border:1px solid #94a3b8"></i>ボール</span>
+  </div>
+
+  <div class="controls">
+    <div class="group"><button class="b" id="btnPlay">❚❚ 一時停止</button><button class="b" id="btnRestart">↺ 最初から</button></div>
+    <div class="group"><span>グラブ</span><button class="b on" data-gl="push">push（出しながら）</button><button class="b" data-gl="pull">pull（引きながら）</button></div>
+    <div class="group" id="lastGroup"><span>ラストワン</span><button class="b on" data-lo="fwd" id="loFwd">-</button><button class="b" data-lo="back" id="loBack">-</button></div>
+    <div class="group"><span>速さ</span><button class="b on" data-sp="1">ふつう</button><button class="b" data-sp="0.4">スロー</button></div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const NS = "http://www.w3.org/2000/svg";
+  const $ = id => document.getElementById(id);
+  const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const lerp = (a, b, k) => a + (b - a) * k;
+  const ease = k => k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+  const seg = (t, a, b) => clamp((t - a) / (b - a), 0, 1);
+  const lp = (A, B, k) => ({ x: lerp(A.x, B.x, k), y: lerp(A.y, B.y, k) });
+
+  // ---------- zone data (right-handed) ----------
+  const ZX = z => 300 + (z - 3.5) * 70;                // zone band center (top view)
+  const Z = {
+    3: { ready: true, traj: "両足の幅の中（従来の正面）", feet: "右足が前（半分半身）", glove: "左足の前", catch: "シングル or ダブル",
+         lo: { fwd: "右足を前に出しながら", back: "左足を一歩引いて" }, side: -1 },
+    4: { ready: true, traj: "両足の幅の中（従来の正面）", feet: "左足が前", glove: "右足の前", catch: "シングル（バック）",
+         lo: { fwd: "左足を前に出しながら", back: "右足を一歩引いて" }, side: 1 },
+    1: { ready: true, traj: "グラブだけ（体は軌道の外）", feet: "右足をクロスして一歩出す", glove: "踏み出した右足の前", catch: "シングル（フォア）",
+         loFixed: "右足（クロス）で決まっている", side: -1, outer: true },
+    2: { ready: true, traj: "グラブだけ（体は軌道の外）", feet: "右足が前（体は横向き）", glove: "左足の前", catch: "シングル（フォア）",
+         loFixed: "左足で決まっている", side: -1, outer: true },
+    5: { ready: true, traj: "グラブだけ（体は軌道の外）", feet: "左足が前（体は横向き）", glove: "右足の前", catch: "シングル（バック）",
+         loFixed: "右足で決まっている", side: 1, outer: true },
+    6: { ready: true, traj: "グラブだけ（体は軌道の外）", feet: "左足をクロスして一歩出す", glove: "踏み出した左足の前", catch: "シングル（バック）",
+         loFixed: "左足（クロス）で決まっている", side: 1, outer: true },
+  };
+
+  const GRP = z => z <= 2 ? { cls: "g12", c: "16,185,129", hex: "#10b981" } : z <= 4 ? { cls: "g34", c: "212,175,55", hex: "#d4af37" } : { cls: "g56", c: "139,92,246", hex: "#8b5cf6" };
+  // zone buttons
+  const zb = $("zonebar");
+  for (let z = 1; z <= 6; z++) {
+    const b = document.createElement("button");
+    b.className = "zbtn " + GRP(z).cls; b.dataset.z = z;
+    b.innerHTML = `<b>${z}</b><small>${z <= 3 ? "フォア側" : "バック側"}${Z[z].ready ? "" : "｜準備中"}</small>`;
+    if (!Z[z].ready) b.disabled = true;
+    zb.appendChild(b);
+  }
+
+  // ---------- timing ----------
+  const T = { approach: 0, loStart: .55, loEnd: 1.0, glStart: .8, meet: 1.12, glEnd: 1.35, sw: 1.42, swEnd: 1.7, end: 2.7 };
+
+  // ---------- TOP VIEW ----------
+  const top = $("top");
+  el("rect", { x: 0, y: 0, width: 600, height: 420, fill: "#2a1f14" }, top);
+  const bands = el("g", {}, top);
+  for (let z = 1; z <= 6; z++) {
+    const x = ZX(z) - 35;
+    el("rect", { x, y: 40, width: 70, height: 340, fill: `rgba(${GRP(z).c},.10)`, "data-band": z }, bands);
+    el("line", { x1: x, y1: 40, x2: x, y2: 380, stroke: "rgba(255,255,255,.12)", "stroke-width": 2 }, bands);
+    el("text", { x: ZX(z), y: 370, fill: "#94a3b8", "font-size": 22, "font-weight": 900, "text-anchor": "middle", "data-num": z }, bands).textContent = z;
+  }
+  el("line", { x1: ZX(6) + 35, y1: 40, x2: ZX(6) + 35, y2: 380, stroke: "rgba(255,255,255,.12)", "stroke-width": 2 }, bands);
+  el("text", { x: 300, y: 62, fill: "#94a3b8", "font-size": 13, "text-anchor": "middle" }, top).textContent = "↑ ホーム方向";
+  const traj = el("line", { stroke: "#e2e8f0", "stroke-width": 2, "stroke-dasharray": "3 7" }, top);
+  const tShadow = el("ellipse", { rx: 70, ry: 34, fill: "#000", opacity: .28 }, top);
+  const tFL = el("ellipse", { rx: 13, ry: 22, fill: "#3b82f6" }, top);
+  const tFR = el("ellipse", { rx: 13, ry: 22, fill: "#ef4444" }, top);
+  const tLblL = el("text", { fill: "#3b82f6", "font-size": 16, "font-weight": 800, "text-anchor": "middle" }, top); tLblL.textContent = "左";
+  const tLblR = el("text", { fill: "#ef4444", "font-size": 16, "font-weight": 900, "text-anchor": "middle" }, top); tLblR.textContent = "右";
+  const tBody = el("ellipse", { rx: 46, ry: 24, fill: "#1e3a5f", stroke: "#e2e8f0", "stroke-width": 2 }, top);
+  const tNavel = el("line", { stroke: "#f6c90e", "stroke-width": 6, "stroke-linecap": "round" }, top);
+  const tNavelH = el("circle", { r: 7, fill: "#f6c90e" }, top);
+  const tHandR = el("circle", { r: 9, fill: "#e2b48a", stroke: "#0f172a", "stroke-width": 1.5 }, top);
+  const tGlove = el("ellipse", { rx: 19, ry: 16, fill: "#8b5a2b", stroke: "#5b3a1a", "stroke-width": 2 }, top);
+  const tBall = el("circle", { r: 8, fill: "#ffffff", stroke: "#64748b", "stroke-width": 2 }, top);
+  const tLo = el("text", { fill: "#f6c90e", "font-size": 13, "font-weight": 800, "text-anchor": "middle", opacity: 0 }, top); tLo.textContent = "ラストワン";
+
+  // ---------- FRONT VIEW (camera at home; screen-left = player's right) ----------
+  const front = $("front");
+  el("rect", { x: 0, y: 0, width: 360, height: 380, fill: "#0e1a12" }, front);
+  el("rect", { x: 0, y: 268, width: 360, height: 112, fill: "#2a1f14" }, front);
+  const fDefs = el("defs", {}, front);
+  const fm = el("marker", { id: "loah", viewBox: "0 0 10 10", refX: 6, refY: 5, markerWidth: 4, markerHeight: 4, orient: "auto-start-reverse" }, fDefs);
+  el("path", { d: "M0 0 L10 5 L0 10 z", fill: "#f6c90e" }, fm);
+  const fLoGhost = el("ellipse", { rx: 16, ry: 9, fill: "none", stroke: "#f6c90e", "stroke-width": 2, "stroke-dasharray": "4 3", opacity: 0 }, front);
+  const fG = el("g", {}, front);
+  const fLoArrow = el("path", { fill: "none", stroke: "#f6c90e", "stroke-width": 4, "stroke-linecap": "round", "marker-end": "url(#loah)", opacity: 0 }, front);
+  const fLoTxt = el("text", { fill: "#f6c90e", "font-size": 13, "font-weight": 900, "text-anchor": "middle", opacity: 0 }, front); fLoTxt.textContent = "ラストワン";
+  const fBall = el("circle", { r: 7, fill: "#ffffff", stroke: "#64748b", "stroke-width": 2 }, front);
+
+  const COL = { shirt: "#1e3a5f", shirt2: "#274b78", pants: "#d6dde6", skin: "#e2b48a", shoe: "#0f172a", cap: "#14284a", glove: "#8b5a2b", sockL: "#3b82f6", sockR: "#ef4444" };
+  const limb = (g, a, b, w, color, cap = "round") => el("line", { x1: a.x, y1: a.y, x2: b.x, y2: b.y, stroke: color, "stroke-width": w, "stroke-linecap": cap }, g);
+
+  // front-view person. J uses player-side names; screen positions given directly.
+  function drawFront(g, J, gloveOpen, gloveScale, backhand) {
+    while (g.firstChild) g.removeChild(g.firstChild);
+    const leg = (hip, knee, ank, sock, depth, name) => {
+      limb(g, hip, knee, 26 * depth, COL.pants); limb(g, knee, ank, 19 * depth, COL.pants);
+      limb(g, lp(knee, ank, .5), ank, 18 * depth, sock);
+      el("ellipse", { cx: ank.x, cy: ank.y + 5, rx: 16 * depth, ry: 9 * depth, fill: sock, stroke: "#0f172a", "stroke-width": 2 }, g);
+      el("text", { x: ank.x, y: ank.y + 32, fill: sock, "font-size": 16, "font-weight": 900, "text-anchor": "middle" }, g).textContent = name;
+    };
+    // farther leg first
+    const legs = [[J.hipR, J.kR, J.fR, COL.sockR, J.dR, "右"], [J.hipL, J.kL, J.fL, COL.sockL, J.dL, "左"]].sort((a, b) => a[4] - b[4]);
+    legs.forEach(l => leg(...l));
+    // torso (leaning forward: chest toward camera)
+    el("path", { d: `M${J.shR.x} ${J.shR.y} L${J.shL.x} ${J.shL.y} L${J.hipL.x + 3} ${J.hipL.y} L${J.hipR.x - 3} ${J.hipR.y} Z`, fill: COL.shirt, stroke: "#0b1a30", "stroke-width": 2, "stroke-linejoin": "round" }, g);
+    limb(g, { x: J.hipR.x - 3, y: J.hipR.y - 3 }, { x: J.hipL.x + 3, y: J.hipL.y - 3 }, 6, "#0f172a", "butt");
+    // head (in front of upper torso since leaning forward)
+    el("circle", { cx: J.head.x, cy: J.head.y, r: 16, fill: COL.skin }, g);
+    el("path", { d: `M${J.head.x - 17} ${J.head.y - 3} Q${J.head.x} ${J.head.y - 27} ${J.head.x + 17} ${J.head.y - 3} Z`, fill: COL.cap }, g);
+    el("path", { d: `M${J.head.x - 16} ${J.head.y - 4} Q${J.head.x} ${J.head.y + 4} ${J.head.x + 16} ${J.head.y - 4}`, stroke: COL.cap, "stroke-width": 5, fill: "none" }, g);
+    // arms
+    limb(g, J.shR, J.eR, 15, COL.shirt2); limb(g, J.eR, J.hR, 12, COL.skin); el("circle", { cx: J.hR.x, cy: J.hR.y, r: 7.5, fill: COL.skin }, g);
+    limb(g, J.shL, J.eL, 15, COL.shirt2); limb(g, J.eL, J.hL, 12, COL.skin);
+    // glove (open pocket toward the ball)
+    const s = gloveScale;
+    const gg = el("g", { transform: `translate(${J.hL.x} ${J.hL.y}) rotate(${backhand ? 160 : 20}) scale(${s})` }, g);
+    el("path", { d: "M-16 -6 Q-18 -26 -6 -30 Q2 -34 8 -28 Q20 -26 18 -8 Q16 12 0 16 Q-14 14 -16 -6 Z", fill: COL.glove, stroke: "#5b3a1a", "stroke-width": 2 }, gg);
+    el("ellipse", { cx: 1, cy: -8, rx: 9 * (0.6 + 0.4 * gloveOpen), ry: 11 * (0.6 + 0.4 * gloveOpen), fill: "#b07a45" }, gg);
+  }
+
+  // ---------- state ----------
+  let zone = 3, gl = "push", lo = "fwd", speed = 1, playing = true, t = 0, last = null;
+
+  function poseTop() {
+    const D = Z[zone], side = D.side;           // side -1: fore (zone3), +1: back (zone4)
+    const cx = 300, cy = 268;
+    // feet: start parallel, then last one creates the stance
+    const Lpar = { x: cx - 70, y: cy }, Rpar = { x: cx + 70, y: cy };
+    // final stance
+    let Lf, Rf;
+    if (zone === 3) { Rf = { x: cx + 70, y: cy - 34 }; Lf = { x: cx - 70, y: cy + 22 }; }
+    else { Lf = { x: cx - 70, y: cy - 34 }; Rf = { x: cx + 70, y: cy + 22 }; }
+    // where the last-one foot starts
+    const k = ease(seg(t, T.loStart, T.loEnd));
+    let L = { ...Lpar }, R = { ...Rpar }, loFoot = null, loFrom, loTo;
+    let body = { x: cx, y: cy - 6 };
+    if (D.outer) {
+      // fore side (zones 1, 2): EP is to the left; run in, body sideways, last one fixed
+      if (zone === 2) { Rf = { x: 330, y: 248 }; Lf = { x: 222, y: 284 }; loFrom = { x: 268, y: 294 }; loTo = Lf; loFoot = "L"; }
+      else if (zone === 1) { Lf = { x: 250, y: 262 }; Rf = { x: 158, y: 262 }; loFrom = { x: 312, y: 266 }; loTo = Rf; loFoot = "R"; }
+      else if (zone === 5) { Lf = { x: 270, y: 248 }; Rf = { x: 378, y: 284 }; loFrom = { x: 332, y: 294 }; loTo = Rf; loFoot = "R"; }
+      else { Rf = { x: 350, y: 262 }; Lf = { x: 442, y: 262 }; loFrom = { x: 288, y: 266 }; loTo = Lf; loFoot = "L"; }
+      const runDir = D.side < 0 ? 1 : -1;                    // fore side: run in from the right; back side: from the left
+      const fixedFoot = loFoot === "L" ? Rf : Lf;
+      const run = 1 - ease(seg(t, 0, T.loStart));            // 1 -> 0 while running in
+      const off = { x: 130 * run * runDir, y: 10 * run };
+      const st = Math.sin(t * 16) * 12 * run;
+      const loCur = lp(loFrom, loTo, k);
+      if (zone === 1 || zone === 6) loCur.y -= Math.sin(k * Math.PI) * 34;     // cross in front of the other foot
+      const fA = { x: fixedFoot.x + off.x + st, y: fixedFoot.y + off.y };
+      const fB = { x: (t < T.loStart ? loFrom.x : loCur.x) + (t < T.loStart ? off.x - st : 0), y: (t < T.loStart ? loFrom.y : loCur.y) + (t < T.loStart ? off.y : 0) };
+      if (loFoot === "L") { R = fA; L = fB; } else { L = fA; R = fB; }
+      body = { x: (Lf.x + Rf.x) / 2 + 6 * runDir + off.x, y: (Lf.y + Rf.y) / 2 - 10 + off.y };
+    } else if (zone === 3) {
+      if (lo === "fwd") { loFrom = { x: Rf.x, y: cy + 10 }; loTo = Rf; L = Lf; R = lp(loFrom, loTo, k); loFoot = "R"; }
+      else { loFrom = { x: Lf.x, y: cy - 20 }; loTo = Lf; R = Rf; L = lp(loFrom, loTo, k); loFoot = "L"; }
+    } else {
+      if (lo === "fwd") { loFrom = { x: Lf.x, y: cy + 10 }; loTo = Lf; R = Rf; L = lp(loFrom, loTo, k); loFoot = "L"; }
+      else { loFrom = { x: Rf.x, y: cy - 20 }; loTo = Rf; L = Lf; R = lp(loFrom, loTo, k); loFoot = "R"; }
+    }
+    const lifted = t > T.loStart && t < T.loEnd;
+    // glove: in front of the zone's foot, on the trajectory
+    const gx = ZX(zone);
+    let gy0, gy1;
+    if (gl === "push") { gy0 = cy - 30; gy1 = cy - 92; } else { gy0 = cy - 120; gy1 = cy - 52; }
+    if (D.outer) { gy0 -= 6; gy1 -= 6; }
+    if (zone === 1 || zone === 6) { if (gl === "push") { gy0 = 268; gy1 = 214; } else { gy0 = 188; gy1 = 244; } }
+    const gk = ease(seg(t, T.glStart, T.glEnd));
+    const glove = { x: gx, y: lerp(gy0, gy1, gk) };
+    // ball
+    const meetY = lerp(gy0, gy1, ease(seg(T.meet, T.glStart, T.glEnd)));
+    let ball;
+    if (t < T.meet) ball = { x: gx, y: lerp(30, meetY, seg(t, 0.15, T.meet)) };
+    else if (t < T.sw) ball = { ...glove };
+    // right hand
+    // right knee sits between the body and the right foot; the hand waits just in front of it
+    const gAng = Math.atan2(glove.y - body.y, glove.x - body.x);
+    const kneeR = lp(body, R, .58);
+    const handReady = { x: kneeR.x + Math.cos(gAng) * 10, y: kneeR.y + Math.sin(gAng) * 10 };
+    const handSwitch = { x: kneeR.x + Math.cos(gAng) * 18, y: kneeR.y + Math.sin(gAng) * 18 };   // switch near the right knee
+    const hk = ease(seg(t, T.sw - .1, T.swEnd));
+    const hand = lp(handReady, handSwitch, hk);
+    if (t >= T.sw) { const bk = ease(seg(t, T.sw, T.swEnd)); ball = lp(glove, hand, bk); ball.arc = Math.sin(bk * Math.PI) * 22; }
+    return { L, R, glove, ball, hand, loFoot, loFrom, loTo, lifted, body };
+  }
+
+  function render() {
+    const D = Z[zone];
+    const P = poseTop();
+    // top: trajectory + bands highlight
+    traj.setAttribute("x1", ZX(zone)); traj.setAttribute("y1", 40); traj.setAttribute("x2", ZX(zone)); traj.setAttribute("y2", P.glove.y);
+    bands.querySelectorAll("[data-band]").forEach(r => { const z = +r.dataset.band; r.setAttribute("fill", `rgba(${GRP(z).c},${z === zone ? .38 : .10})`); });
+    bands.querySelectorAll("[data-num]").forEach(n => { const z = +n.dataset.num; n.setAttribute("fill", z === zone ? "#ffffff" : GRP(z).hex); n.setAttribute("opacity", z === zone ? 1 : .8); });
+    tShadow.setAttribute("cx", P.body.x); tShadow.setAttribute("cy", P.body.y + 10);
+    const put = (e, p) => { e.setAttribute("cx", p.x); e.setAttribute("cy", p.y); };
+    put(tFL, P.L); put(tFR, P.R);
+    tFL.setAttribute("opacity", P.lifted && P.loFoot === "L" ? .45 : 1); tFR.setAttribute("opacity", P.lifted && P.loFoot === "R" ? .45 : 1);
+    tLblL.setAttribute("x", P.L.x); tLblL.setAttribute("y", P.L.y + 42); tLblR.setAttribute("x", P.R.x); tLblR.setAttribute("y", P.R.y + 42);
+    // navel: toward glove
+    const nAng = zone === 1 ? Math.PI : zone === 6 ? 0 : Math.atan2(P.glove.y - P.body.y, P.glove.x - P.body.x);   // zone 1: fully sideways
+    put(tBody, P.body); tBody.setAttribute("transform", `rotate(${nAng * 180 / Math.PI + 90} ${P.body.x} ${P.body.y})`);
+    const nx = P.body.x + Math.cos(nAng) * 62, ny = P.body.y + Math.sin(nAng) * 62;
+    tNavel.setAttribute("x1", P.body.x); tNavel.setAttribute("y1", P.body.y); tNavel.setAttribute("x2", nx); tNavel.setAttribute("y2", ny);
+    put(tNavelH, { x: nx, y: ny });
+    put(tGlove, P.glove); put(tHandR, P.hand);
+    tBall.setAttribute("opacity", P.ball ? 1 : 0);
+    if (P.ball) put(tBall, { x: P.ball.x, y: P.ball.y - (P.ball.arc || 0) });
+    const loP = P.loFoot === "L" ? P.L : P.R;
+    tLo.setAttribute("opacity", t > T.loStart - .1 && t < T.loEnd + .5 ? 1 : 0); tLo.setAttribute("x", loP.x); tLo.setAttribute("y", loP.y + 62);
+
+    // ---------- front view ----------
+    // map: screen x = 360 - topX*0.6 shift (mirror), depth from top y
+    const sx = x => 180 - (x - 300) * 0.62;
+    const depth = y => 1 + (y - 268) * 0.0035;            // closer to home (smaller y) => nearer camera
+    const gy = y => 268 + (268 - y) * 0.28;               // nearer => lower on screen
+    const fL = { x: sx(P.L.x), y: gy(P.L.y) - (P.lifted && P.loFoot === "L" ? 14 : 0) };
+    const fR = { x: sx(P.R.x), y: gy(P.R.y) - (P.lifted && P.loFoot === "R" ? 14 : 0) };
+    const hipC = { x: (fL.x + fR.x) / 2 + (zone === 3 ? 6 : -6), y: 188 };
+    const J = {
+      fL, fR, dL: 1 - (P.L.y - 268) * 0.004, dR: 1 - (P.R.y - 268) * 0.004,
+      hipL: { x: hipC.x + 17, y: hipC.y }, hipR: { x: hipC.x - 17, y: hipC.y },
+      kL: { x: fL.x + 13, y: lerp(hipC.y, fL.y, .5) }, kR: { x: fR.x - 13, y: lerp(hipC.y, fR.y, .5) },
+    };
+    const gsx = sx(P.glove.x);
+    const turn = (zone === 1 || zone === 6) ? .9 : D.outer ? .45 : 0;
+    const lean = clamp((gsx - hipC.x) * .35, D.outer ? -30 : -16, D.outer ? 30 : 16);
+    J.shL = { x: hipC.x + 29 * (1 - turn) + lean, y: hipC.y - 50 }; J.shR = { x: hipC.x - 29 * (1 - turn) + lean, y: hipC.y - 50 };
+    J.hipL.x = hipC.x + 17 * (1 - turn * .6); J.hipR.x = hipC.x - 17 * (1 - turn * .6);
+    J.head = { x: hipC.x + lean * 1.3, y: hipC.y - 70 };
+    // glove hand (player's left arm). front screen position of glove
+    const gs = { x: sx(P.glove.x), y: gy(P.glove.y) - 6 };
+    const gScale = 1 + (268 - P.glove.y) * 0.003;
+    J.hL = gs; J.eL = { x: lerp(J.shL.x, gs.x, .5) + (zone === 3 ? 12 : 6), y: lerp(J.shL.y, gs.y, .45) };
+    // right hand: near right knee, then to switch point
+    const hk = ease(seg(t, T.sw - .1, T.swEnd));
+    const hR0 = { x: lerp(J.kR.x, hipC.x, .35), y: J.kR.y - 4 }, hR1 = { x: lerp(J.kR.x, hipC.x, .45), y: J.kR.y - 14 };
+    J.hR = lp(hR0, hR1, hk); J.eR = { x: lerp(J.shR.x, J.hR.x, .5) + (J.hR.x < J.shR.x ? -10 : 10) * -1 - 6, y: lerp(J.shR.y, J.hR.y, .5) };
+    const open = t < T.meet ? 1 : .3;
+    drawFront(fG, J, open, gScale, zone >= 4);
+    // last-one arrow (front view): a step toward the camera shows as a downward arrow, a step back as upward
+    const end1 = { x: sx(P.loTo.x), y: gy(P.loTo.y) + 4 };
+    const fwd = P.loTo.y < P.loFrom.y;                      // moving toward home = toward camera
+    const side = end1.x < 180 ? -1 : 1;
+    const lateral = Math.abs(sx(P.loFrom.x) - end1.x) > 25;
+    const start1 = lateral ? { x: sx(P.loFrom.x), y: gy(P.loFrom.y) + 4 } : { x: end1.x + side * 26, y: end1.y + (fwd ? -62 : 46) };
+    const showLo = t > T.loStart - .3 && t < T.loEnd + .7;
+    const ak = ease(seg(t, T.loStart - .3, T.loStart));
+    const ctrl = lateral ? { x: (start1.x + end1.x) / 2, y: Math.max(start1.y, end1.y) + 34 } : { x: end1.x + side * 46, y: (start1.y + end1.y) / 2 };
+    const tip = lateral ? { x: end1.x - Math.sign(end1.x - start1.x) * 14, y: end1.y + 8 } : { x: end1.x + side * 14, y: end1.y + (fwd ? -12 : 12) };
+    fLoArrow.setAttribute("d", `M${start1.x} ${start1.y + (lateral ? 8 : 0)} Q${ctrl.x} ${ctrl.y} ${tip.x} ${tip.y}`);
+    fLoArrow.setAttribute("opacity", showLo ? ak : 0);
+    fLoGhost.setAttribute("cx", start1.x); fLoGhost.setAttribute("cy", start1.y); fLoGhost.setAttribute("rx", fwd ? 12 : 18); fLoGhost.setAttribute("ry", fwd ? 7 : 10);
+    fLoGhost.setAttribute("opacity", showLo ? ak * .9 : 0);
+    fLoTxt.setAttribute("x", clamp(lateral ? ctrl.x : start1.x, 80, 280)); fLoTxt.setAttribute("y", lateral ? ctrl.y + 20 : (fwd ? start1.y - 16 : start1.y + 30));
+    fLoTxt.setAttribute("opacity", showLo ? ak : 0);
+    fLoTxt.textContent = (zone === 1 || zone === 6) ? "ラストワン（クロス）" : lateral ? "ラストワン" : (fwd ? "ラストワン（前へ）" : "ラストワン（引く）");
+
+    // ball in front view
+    if (P.ball) {
+      fBall.setAttribute("opacity", 1);
+      const fb = t < T.sw ? (t < T.meet ? { x: gs.x, y: lerp(150, gs.y, seg(t, .15, T.meet)) } : gs) : lp(gs, J.hR, ease(seg(t, T.sw, T.swEnd)));
+      fBall.setAttribute("cx", fb.x); fBall.setAttribute("cy", fb.y - (t >= T.sw ? Math.sin(seg(t, T.sw, T.swEnd) * Math.PI) * 26 : 0));
+      fBall.setAttribute("r", 7 * (t < T.meet ? lerp(.6, 1, seg(t, .15, T.meet)) : 1));
+    } else fBall.setAttribute("opacity", 0);
+
+    // caption
+    let cap;
+    if (t < T.loStart) cap = D.outer ? `ゾーン${zone}：EPへ走る（体は横向き、グラブだけが軌道へ）` : `ゾーン${zone}：EPへ向かう`;
+    else if (t < T.meet) cap = D.loFixed ? `ラストワン：${D.loFixed.replace("で決まっている", "")}${(zone === 1 || zone === 6) ? "。EPが遠いのでクロスする" : ""}` : `ラストワン：${D.lo[lo]}`;
+    else if (t < T.sw) cap = gl === "push" ? "グラブを出しながら（push）、ボールと出会う" : "グラブを引きながら（pull）、ボールと出会う";
+    else cap = "円を描く途中で、空中で右手へ。右膝の付近でスイッチ";
+    $("capTxt").textContent = cap;
+  }
+
+  function setInfo() {
+    const D = Z[zone];
+    $("iTraj").textContent = D.traj; $("iFeet").textContent = D.feet; $("iGlove").textContent = D.glove; $("iCatch").textContent = D.catch;
+    if (D.loFixed) { $("loFwd").textContent = D.loFixed; $("loBack").style.display = "none"; $("loFwd").classList.add("on"); $("loFwd").disabled = true; }
+    else { $("loFwd").textContent = D.lo.fwd; $("loBack").textContent = D.lo.back; $("loBack").style.display = ""; $("loFwd").disabled = false; }
+    document.querySelectorAll(".zbtn").forEach(b => b.classList.toggle("on", +b.dataset.z === zone));
+    document.querySelectorAll(".info > div").forEach(d => d.style.borderTopColor = GRP(zone).hex);
+  }
+
+  function frame(ts) {
+    if (!playing) { last = null; return; }
+    if (last != null) t += (ts - last) / 1000 * speed;
+    last = ts; if (t > T.end) t = 0;
+    render(); requestAnimationFrame(frame);
+  }
+  const play = () => { if (playing) return; playing = true; $("btnPlay").textContent = "❚❚ 一時停止"; requestAnimationFrame(frame); };
+  const pause = () => { playing = false; $("btnPlay").textContent = "▶ 再生"; };
+  $("btnPlay").onclick = () => playing ? pause() : play();
+  $("btnRestart").onclick = () => { t = 0; render(); play(); };
+  document.querySelectorAll(".zbtn").forEach(b => b.onclick = () => { zone = +b.dataset.z; t = 0; setInfo(); render(); play(); });
+  const radio = (sel, fn) => document.querySelectorAll(sel).forEach(b => b.onclick = () => { document.querySelectorAll(sel).forEach(x => x.classList.remove("on")); b.classList.add("on"); fn(b); t = 0; render(); play(); });
+  radio("[data-gl]", b => gl = b.dataset.gl);
+  radio("[data-lo]", b => lo = b.dataset.lo);
+  radio("[data-sp]", b => speed = +b.dataset.sp);
+
+  window.__setT = v => { pause(); t = v; render(); };
+  window.__set = o => { if (o.zone) zone = o.zone; if (o.gl) gl = o.gl; if (o.lo) lo = o.lo; setInfo(); render(); };
+  setInfo(); render(); requestAnimationFrame(frame);
+})();
+</script>
+<script>
+(() => {
+  const inFrame = window.self !== window.top;
+  if (inFrame) document.documentElement.classList.add("embed");
+  const post = () => { if (inFrame) parent.postMessage({ type: "anim-height", h: document.documentElement.scrollHeight }, "*"); };
+  window.addEventListener("load", post); window.addEventListener("resize", post);
+  if (window.ResizeObserver) new ResizeObserver(post).observe(document.body);
+  setTimeout(post, 300);
+})();
+</script>
+<script>
+(() => { const q = new URLSearchParams(location.search);
+  if (q.has("shot")) document.documentElement.classList.add("shot");
+  if (q.has("t")) setTimeout(() => { if (q.get('zone')) __set({ zone: +q.get('zone') }); __setT(+q.get("t")); }, 50);
+})();
+</script>
+</body>
+</html>

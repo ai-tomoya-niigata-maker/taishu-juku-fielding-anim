@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 220" role="img" aria-label="捕ったときの左足の位置へ、右足を持ってくるステップの図（上から見た図）">
+  <text x="20" y="24" fill="#94a3b8" font-size="13">上から見た図（右投げ）</text>
+  <!-- left foot -->
+  <ellipse cx="270" cy="110" rx="22" ry="44" fill="#1e3a5f" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="252" y="175" fill="#e2e8f0" font-size="14" font-weight="700">左足</text>
+  <!-- right foot -->
+  <ellipse cx="140" cy="125" rx="22" ry="44" fill="#1e3a5f" stroke="#94a3b8" stroke-width="2"/>
+  <text x="122" y="190" fill="#94a3b8" font-size="14" font-weight="700">右足</text>
+  <!-- target outline -->
+  <ellipse cx="270" cy="110" rx="27" ry="50" fill="none" stroke="#f6c90e" stroke-width="3" stroke-dasharray="6 5"/>
+  <!-- arrow -->
+  <path d="M165 108 C 195 70, 225 70, 246 92" stroke="#f6c90e" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M246 92 L230 90 M246 92 L240 77" stroke="#f6c90e" stroke-width="4" stroke-linecap="round"/>
+  <text x="120" y="56" fill="#f6c90e" font-size="13" font-weight="800">左足の位置へ、右足</text>
+</svg>
