@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>動く図｜EPドリル｜体修塾ゴロ捕球の教科書</title>
+<style>
+  :root{
+    --bg:#0d1b2a; --bg2:#0a0e1a; --card:#111827; --border:#1e3a5f;
+    --gold:#d4af37; --gold2:#f6c90e; --text:#f8fafc; --body:#e2e8f0; --sub:#94a3b8;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:linear-gradient(180deg,var(--bg2),var(--bg));color:var(--body);
+    font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",Meiryo,sans-serif;line-height:1.8;min-height:100vh}
+  .wrap{max-width:960px;margin:0 auto;padding:28px 16px 60px}
+  .label{font-size:12px;letter-spacing:.3em;color:var(--gold);font-weight:800;text-align:center}
+  h1{text-align:center;font-size:clamp(22px,4.6vw,30px);font-weight:900;color:var(--text);margin:4px 0}
+  .lead{text-align:center;color:var(--sub);font-size:14px;margin-bottom:16px}
+
+  .info{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+  .info > div{background:var(--card);border-radius:12px;padding:10px 12px;border-top:3px solid var(--gold)}
+  .info .k{font-size:11px;letter-spacing:.16em;color:var(--gold);font-weight:800}
+  .info .v{font-size:14px;font-weight:800;color:var(--text);line-height:1.5}
+
+  .caption{min-height:56px;margin:0 0 12px;padding:12px 18px;border-radius:14px;background:var(--card);border-left:5px solid var(--gold)}
+  .caption .txt{font-size:clamp(16px,3.4vw,19px);font-weight:900;color:var(--text);line-height:1.5}
+
+  .count{display:flex;flex-wrap:wrap;align-items:center;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:10px 14px;margin-bottom:12px}
+  .dots{display:flex;gap:8px;align-items:center}
+  .dots i{min-width:30px;height:30px;border-radius:15px;border:2px solid #475569;display:inline-flex;align-items:center;justify-content:center;font-style:normal;font-size:12px;font-weight:900;color:#64748b;padding:0 6px}
+  .dots i.done{background:#fff;border-color:#fff;color:#0a0e1a}
+  .dots i.now{border-color:var(--gold2);color:var(--gold2);box-shadow:0 0 0 2px rgba(246,201,14,.35)}
+  .dots i.step{border-style:dashed}
+  .cnt{font-weight:900;color:var(--text);font-size:15px}
+  .cnt small{font-size:12px;color:var(--sub);font-weight:700;margin-left:8px}
+  .tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+  .tab{font:inherit;cursor:pointer;border-radius:12px;padding:10px 6px;text-align:center;background:var(--card);border:1px solid var(--border);border-top:4px solid var(--gold);color:var(--sub);font-weight:800}
+  .tab.on{background:color-mix(in srgb,var(--gold) 22%,var(--card));box-shadow:0 0 0 2px var(--gold) inset;color:#fff}
+
+  .stage{display:grid;grid-template-columns:1.2fr 1fr;gap:12px}
+  .panel{background:var(--card);border-radius:16px;border:1px solid var(--border);padding:10px 10px 6px}
+  .panel .pt{font-size:12px;letter-spacing:.16em;color:var(--sub);font-weight:700;padding:2px 6px 6px}
+  .panel svg{display:block;width:100%;height:auto}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;font-size:12.5px;color:var(--sub);margin-top:8px}
+  .legend i{display:inline-block;width:12px;height:12px;border-radius:50%;vertical-align:-1px;margin-right:5px}
+
+  .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;margin-top:14px}
+  .group{display:flex;gap:6px;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:6px 8px;flex-wrap:wrap}
+  .group span{font-size:12px;color:var(--sub);padding:0 4px;letter-spacing:.08em}
+  button.b{font:inherit;font-size:14px;font-weight:800;color:var(--text);background:#0b1424;border:1px solid var(--border);border-radius:8px;padding:7px 12px;cursor:pointer}
+  button.b.on{background:var(--gold);color:#0a0e1a;border-color:var(--gold)}
+  button:focus-visible{outline:2px solid var(--gold2);outline-offset:2px}
+  @media (max-width:720px){ .stage{grid-template-columns:1fr} .info{grid-template-columns:1fr 1fr} }
+  html.embed body{min-height:0}
+  html.embed .wrap{padding-top:8px;padding-bottom:12px}
+  html.embed .wrap > .label, html.embed .wrap > h1, html.embed .wrap > .lead{display:none}
+  html.shot .controls, html.shot .wrap > .label, html.shot .wrap > h1, html.shot .wrap > .lead{display:none}
+  html.shot .wrap{padding:10px 12px}
+  .zsel{display:flex;flex-wrap:wrap;gap:6px}
+  .badge{min-height:58px;margin:0 0 12px;padding:12px 18px;border-radius:14px;background:linear-gradient(135deg,rgba(212,175,55,.18),rgba(212,175,55,.04));border:1px solid rgba(212,175,55,.55);text-align:center}
+  .badge .k{font-size:11px;letter-spacing:.22em;color:var(--gold);font-weight:800}
+  .badge .v{font-size:clamp(18px,3.8vw,23px);font-weight:900;color:var(--text)}
+  .badge .s{font-size:13px;color:var(--body);font-weight:700}
+  .stage1{background:var(--card);border-radius:16px;border:1px solid var(--border);padding:10px 10px 6px;max-width:600px;margin:0 auto}
+  .stage1 svg{display:block;width:100%;height:auto}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="label">MOVING FIGURE｜EP DRILL</div>
+  <h1>EPドリル（ゾーン3・4）</h1>
+  <p class="lead">EP（Encounter Point）＝打球と自分が「出会う点」。トサーは正面にゆっくりなゴロ。守備者はゆっくり歩いて入り、EPで出会った形でラスト1と取り方が決まる。そのままランニングステップへ。1球ずつ、列で次々に。（右投げ）</p>
+
+  <div class="info">
+    <div><div class="k">ねらい</div><div class="v">EPでの打球と体の関係で、<br>取り方を決める</div></div>
+    <div><div class="k">トサー</div><div class="v">正面に、ゆっくりな<br>ゴロを転がす</div></div>
+    <div><div class="k">守備者</div><div class="v">ゆっくり歩いて、そのままEPへ。<br>コースで形が変わる</div></div>
+    <div><div class="k">EPで</div><div class="v">ラスト1が右足か左足かで<br>取り方が決まる → ランニングステップ</div></div>
+  </div>
+
+  <div class="caption" aria-live="polite"><div class="txt" id="capTxt">-</div></div>
+  <div class="badge"><div class="k">EPで出会った形</div><div class="v" id="bV">？</div><div class="s" id="bS">&nbsp;</div></div>
+
+  <div class="stage1"><svg id="top" viewBox="60 10 480 410" role="img" aria-label="上から見たEPドリル"></svg></div>
+  <div class="legend">
+    <span><i style="background:#ef4444"></i>右足</span><span><i style="background:#3b82f6"></i>左足</span>
+    <span><i style="background:#8b5a2b"></i>グラブ</span><span><i style="background:#ffffff;border:1px solid #94a3b8"></i>ボール</span>
+    <span><i style="background:#f6c90e"></i>ヘソの向き・EP</span>
+  </div>
+
+  <div class="controls">
+    <div class="group"><button class="b" id="btnPlay">❚❚ 一時停止</button><button class="b" id="btnRestart">↺ 次の1球</button></div>
+    <div class="group zsel"><span>出会う形</span><button class="b on" data-z="0">ランダム</button><button class="b" data-z="3">ゾーン3</button><button class="b" data-z="4">ゾーン4</button></div>
+    <div class="group"><span>再生</span><button class="b on" data-sp="1">ふつう</button><button class="b" data-sp="0.4">スロー</button></div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const NS = "http://www.w3.org/2000/svg";
+  const $ = id => document.getElementById(id);
+  const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const lerp = (a, b, k) => a + (b - a) * k;
+  const ease = k => k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+  const seg = (t, a, b) => clamp((t - a) / (b - a), 0, 1);
+  const lp = (A, B, k) => ({ x: lerp(A.x, B.x, k), y: lerp(A.y, B.y, k) });
+
+  // ---------- zones (relative to the player's final position; screen-left = player's left = fore side) ----------
+  const CX = 300, CY = 268, ZX = z => CX + (z - 3.5) * 70;
+  const GRP = z => z <= 2 ? "16,185,129" : z <= 4 ? "212,175,55" : "139,92,246";
+  const ZD = {
+    1: { L: { x: 250, y: 262 }, R: { x: 158, y: 262 }, lo: "R", cross: true, nav: 180, txt: "右足をクロス。体は完全に真横", c: "シングル（フォア）" },
+    2: { L: { x: 222, y: 284 }, R: { x: 330, y: 248 }, lo: "L", nav: null, txt: "ラスト1は左足。体は横向き、グラブだけが軌道へ", c: "シングル（フォア）" },
+    3: { L: { x: 230, y: 290 }, R: { x: 370, y: 234 }, lo: "R", nav: null, txt: "右足が前（半分半身）。グラブは左足の前", c: "シングル or ダブル" },
+    4: { L: { x: 230, y: 234 }, R: { x: 370, y: 290 }, lo: "L", nav: null, txt: "左足が前。グラブは右足の前", c: "逆シングル" },
+    5: { L: { x: 270, y: 248 }, R: { x: 378, y: 284 }, lo: "R", nav: null, txt: "ラスト1は右足。体は横向き、グラブだけが軌道へ", c: "逆シングル" },
+    6: { L: { x: 442, y: 262 }, R: { x: 350, y: 262 }, lo: "L", cross: true, nav: 0, txt: "左足をクロス。体は完全に真横", c: "逆シングル" },
+  };
+  const GY = 212;                                         // glove / EP depth
+  const TOSSER = { x: 300, y: 30 };
+  const T = { roll0: .5, walk0: .7, lo0: 3.3, meet: 4.1, sw0: 4.35, sw1: 4.65, run0: 4.55, run1: 5.85, end: 7.0 };
+
+  // ---------- svg ----------
+  const top = $("top");
+  el("rect", { x: 0, y: 0, width: 600, height: 440, fill: "#2a1f14" }, top);
+  const gP = el("g", {}, top);
+  const bands = el("g", {}, gP);
+  for (let z = 3; z <= 4; z++) {
+    el("rect", { x: ZX(z) - 35, y: 150, width: 70, height: 160, fill: `rgba(${GRP(z)},.10)`, "data-band": z }, bands);
+    el("text", { x: ZX(z), y: 304, fill: "#94a3b8", "font-size": 18, "font-weight": 900, "text-anchor": "middle", "data-num": z }, bands).textContent = z;
+  }
+  el("text", { x: CX, y: 144, fill: "#64748b", "font-size": 11.5, "font-weight": 700, "text-anchor": "middle" }, bands).textContent = "EPで出会ったときの、体とゴロの関係（まずはゾーン3・4）";
+  el("circle", { cx: TOSSER.x, cy: TOSSER.y, r: 12, fill: "#64748b" }, top);
+  el("text", { x: TOSSER.x + 22, y: TOSSER.y + 5, fill: "#94a3b8", "font-size": 13, "font-weight": 800 }, top).textContent = "トサー";
+  const traj = el("line", { stroke: "rgba(255,255,255,.5)", "stroke-width": 2.5, "stroke-dasharray": "3 7" }, gP);
+  const walkPath = el("line", { stroke: "rgba(246,201,14,.35)", "stroke-width": 2, "stroke-dasharray": "2 6" }, gP);
+  const runArrow = el("line", { stroke: "rgba(246,201,14,.8)", "stroke-width": 3, "stroke-dasharray": "6 5", opacity: 0 }, gP);
+  const ep = el("g", { opacity: 0 }, gP);
+  el("circle", { r: 15, fill: "none", stroke: "#f6c90e", "stroke-width": 3 }, ep);
+  el("text", { x: 0, y: -22, fill: "#f6c90e", "font-size": 13, "font-weight": 900, "text-anchor": "middle" }, ep).textContent = "EP";
+  const shadow = el("ellipse", { rx: 56, ry: 28, fill: "#000", opacity: .25 }, gP);
+  const body = el("ellipse", { rx: 40, ry: 20, fill: "#1e3a5f", stroke: "#e2e8f0", "stroke-width": 2 }, gP);
+  const nav = el("line", { stroke: "#f6c90e", "stroke-width": 5, "stroke-linecap": "round" }, gP);
+  const navH = el("circle", { r: 6, fill: "#f6c90e" }, gP);
+  const fL = el("ellipse", { rx: 11, ry: 19, fill: "#3b82f6" }, gP);
+  const fR = el("ellipse", { rx: 11, ry: 19, fill: "#ef4444" }, gP);
+  const lL = el("text", { fill: "#3b82f6", "font-size": 14, "font-weight": 900, "text-anchor": "middle" }, gP); lL.textContent = "左";
+  const lR = el("text", { fill: "#ef4444", "font-size": 14, "font-weight": 900, "text-anchor": "middle" }, gP); lR.textContent = "右";
+  const glove = el("ellipse", { rx: 17, ry: 14, fill: "#8b5a2b", stroke: "#5b3a1a", "stroke-width": 2 }, gP);
+  const hand = el("circle", { r: 8, fill: "#e2b48a", stroke: "#f6c90e", "stroke-width": 3 }, gP);
+  const ball = el("circle", { r: 8, fill: "#fff", stroke: "#64748b", "stroke-width": 2 }, gP);
+  const loTxt = el("text", { fill: "#f6c90e", "font-size": 13, "font-weight": 900, "text-anchor": "middle", opacity: 0 }, gP); loTxt.textContent = "ラスト1";
+
+  const q = el("g", {}, top);
+  [0, 1, 2].forEach(i => el("circle", { cx: 440 + i * 26, cy: 400, r: 9, fill: "#475569", stroke: "#94a3b8", "stroke-width": 1.5 }, q));
+  el("text", { x: 466, y: 384, fill: "#94a3b8", "font-size": 11.5, "font-weight": 800, "text-anchor": "middle" }, q).textContent = "次の選手（列）";
+
+  // ---------- state ----------
+  let zone = 3, fixed = 0, start = { x: 300, y: 400 }, speed = 1, playing = true, t = 0, last = null;
+  function newBall() {
+    zone = fixed || (Math.random() < .5 ? 3 : 4);
+    start = { x: 300 + (Math.random() * 2 - 1) * 24, y: 404 };
+    t = 0;
+  }
+  const put = (e, p) => { e.setAttribute("cx", p.x); e.setAttribute("cy", p.y); };
+
+  function render() {
+    const D = ZD[zone];
+    const G = { x: ZX(zone), y: GY };                       // EP (glove meets the ball here)
+    const dx = TOSSER.x - G.x;                              // straight grounder: the player's course decides the zone
+    gP.setAttribute("transform", `translate(${dx} 0)`);
+    const TP = { x: TOSSER.x - dx, y: TOSSER.y };           // tosser in the player frame
+    const endBody = { x: (D.L.x + D.R.x) / 2, y: (D.L.y + D.R.y) / 2 };
+    // walking: body moves from start to just before the stance; feet alternate. the last one lands at the meet.
+    const preBody = lp(start, endBody, .82);
+    const wk = seg(t, T.walk0, T.lo0), bodyP = t < T.lo0 ? lp(start, preBody, wk) : lp(preBody, endBody, ease(seg(t, T.lo0, T.meet)));
+    const dir = Math.atan2(preBody.y - start.y, preBody.x - start.x);
+    const nx = -Math.sin(dir), ny = Math.cos(dir);            // lateral (player's right when walking up)
+    const stepPh = wk * 5;                                    // 5 slow steps
+    const sw = k => Math.sin(k * Math.PI);
+    let L, R;
+    if (t < T.lo0) {
+      const a = Math.floor(stepPh), f = stepPh - a, adv = 14;
+      const fwd = (n, lift) => ({ x: bodyP.x + Math.cos(dir) * n, y: bodyP.y + Math.sin(dir) * n - lift });
+      const lead = a % 2 === 0 ? "L" : "R";
+      const off = (side, n) => { const p = fwd(n, 0); return { x: p.x + nx * 22 * side, y: p.y + ny * 22 * side }; };
+      if (lead === "L") { L = off(-1, lerp(-adv, adv, f)); R = off(1, -adv * (1 - f) + adv * 0); }
+      else { R = off(1, lerp(-adv, adv, f)); L = off(-1, -adv * (1 - f)); }
+      if (wk >= 1) { L = off(-1, 0); R = off(1, 0); }
+    } else {
+      // last one: the fixed foot settles; the last-one foot (crossing for zones 1/6) lands on the meet
+      const k = ease(seg(t, T.lo0, T.meet));
+      const pre = { L: { x: preBody.x - nx * 22, y: preBody.y - ny * 22 }, R: { x: preBody.x + nx * 22, y: preBody.y + ny * 22 } };
+      const other = D.lo === "L" ? "R" : "L";
+      const kO = ease(seg(t, T.lo0, T.lo0 + .35));
+      const P = {}; P[other] = lp(pre[other], D[other], kO);
+      const p = lp(pre[D.lo], D[D.lo], k); if (D.cross) p.y -= sw(k) * 30; P[D.lo] = p;
+      L = P.L; R = P.R;
+    }
+    // running step toward the throw direction (first base: up-left)
+    const RD = { x: -Math.SQRT1_2, y: -Math.SQRT1_2 }, RUN = 120;
+    let runK = 0;
+    if (t >= T.run0) {
+      runK = seg(t, T.run0, T.run1);
+      const off = RUN * ease(runK), ph = runK * 4, f = ph - Math.floor(ph), lead = Math.floor(ph) % 2 === 0 ? "L" : "R";
+      const base = { x: endBody.x + RD.x * off, y: endBody.y + RD.y * off };
+      const px = -RD.y, py = RD.x;                         // lateral of the running direction
+      const foot = (side, n) => ({ x: base.x + RD.x * n + px * 18 * side, y: base.y + RD.y * n + py * 18 * side });
+      const a2 = 16;
+      if (runK >= 1) { L = foot(-1, 6); R = foot(1, -6); }
+      else if (lead === "L") { L = foot(-1, lerp(-a2, a2, f)); R = foot(1, -a2 * (1 - f)); }
+      else { R = foot(1, lerp(-a2, a2, f)); L = foot(-1, -a2 * (1 - f)); }
+      // blend from the catching stance during the first part
+      const bk = ease(seg(t, T.run0, T.run0 + .3));
+      L = lp(D.L, L, bk); R = lp(D.R, R, bk);
+    }
+    const liftLo = t >= T.lo0 && t < T.meet;
+    // navel
+    const navEnd = D.nav != null ? D.nav * Math.PI / 180 : Math.atan2(G.y - endBody.y, G.x - endBody.x);
+    const navWalk = Math.atan2(G.y - bodyP.y, G.x - bodyP.x);
+    const naRun = Math.atan2(RD.y, RD.x);
+    const na0 = t < T.lo0 ? navWalk : lerp(navWalk, navEnd + (Math.abs(navEnd - navWalk) > Math.PI ? (navWalk > navEnd ? 2 * Math.PI : -2 * Math.PI) : 0), ease(seg(t, T.lo0, T.meet)));
+    const na = t >= T.run0 ? na0 + (((naRun - na0 + 3 * Math.PI) % (2 * Math.PI)) - Math.PI) * ease(seg(t, T.run0, T.run0 + .4)) : na0;
+    const bodyD = t >= T.run0 ? { x: (L.x + R.x) / 2, y: (L.y + R.y) / 2 } : bodyP;
+    // ball: slow roll from the tosser to the EP
+    const B0 = { x: TP.x, y: TOSSER.y + 14 };
+    let bp = null;
+    if (t >= T.roll0 && t < T.meet) bp = lp(B0, G, seg(t, T.roll0, T.meet));
+    // glove: comes to the EP for the meet
+    const gHome = { x: bodyP.x + Math.cos(navWalk) * 34, y: bodyP.y + Math.sin(navWalk) * 34 };
+    const gp = t < T.lo0 ? gHome : t < T.meet ? lp(gHome, G, ease(seg(t, T.lo0, T.meet))) : lp(G, { x: endBody.x + Math.cos(navEnd) * 30, y: endBody.y + Math.sin(navEnd) * 30 }, ease(seg(t, T.sw0, T.run0)));
+    const gpR = t >= T.run0 ? { x: bodyD.x - 30, y: bodyD.y - 16 } : null;
+    const hp = t >= T.run0 ? { x: bodyD.x + 14, y: bodyD.y + 10 } : lp(bodyP, R, .55);
+    if (t >= T.meet && t < T.sw0) bp = gp;
+    else if (t >= T.sw0 && t < T.sw1) bp = lp(G, hp, ease(seg(t, T.sw0, T.sw1)));
+    else if (t >= T.sw1) bp = hp;
+    // ---- draw
+    traj.setAttribute("x1", B0.x); traj.setAttribute("y1", B0.y); traj.setAttribute("x2", G.x); traj.setAttribute("y2", G.y);
+    walkPath.setAttribute("x1", start.x); walkPath.setAttribute("y1", start.y); walkPath.setAttribute("x2", endBody.x); walkPath.setAttribute("y2", endBody.y);
+    const met = t >= T.meet - .05;
+    runArrow.setAttribute("x1", endBody.x); runArrow.setAttribute("y1", endBody.y); runArrow.setAttribute("x2", endBody.x + RD.x * (RUN + 40)); runArrow.setAttribute("y2", endBody.y + RD.y * (RUN + 40)); runArrow.setAttribute("opacity", t >= T.sw1 - .2 ? .9 : 0);
+    ep.setAttribute("transform", `translate(${G.x} ${G.y})`); ep.setAttribute("opacity", t >= T.lo0 - .3 ? 1 : .0);
+    bands.querySelectorAll("[data-band]").forEach(r => { const z = +r.dataset.band; r.setAttribute("fill", `rgba(${GRP(z)},${met && z === zone ? .4 : .10})`); });
+    bands.querySelectorAll("[data-num]").forEach(n => { const z = +n.dataset.num; n.setAttribute("fill", met && z === zone ? "#fff" : "#94a3b8"); });
+    put(shadow, { x: bodyD.x, y: bodyD.y + 8 });
+    put(body, bodyD); body.setAttribute("transform", `rotate(${na * 180 / Math.PI + 90} ${bodyD.x} ${bodyD.y})`);
+    const hx = bodyD.x + Math.cos(na) * 52, hy = bodyD.y + Math.sin(na) * 52;
+    nav.setAttribute("x1", bodyD.x); nav.setAttribute("y1", bodyD.y); nav.setAttribute("x2", hx); nav.setAttribute("y2", hy); put(navH, { x: hx, y: hy });
+    put(fL, L); put(fR, R);
+    const fr = na * 180 / Math.PI + 90;
+    fL.setAttribute("transform", `rotate(${fr} ${L.x} ${L.y})`); fR.setAttribute("transform", `rotate(${fr} ${R.x} ${R.y})`);
+    fL.setAttribute("opacity", liftLo && D.lo === "L" ? .55 : 1); fR.setAttribute("opacity", liftLo && D.lo === "R" ? .55 : 1);
+    lL.setAttribute("x", L.x - 20); lL.setAttribute("y", L.y + 30); lR.setAttribute("x", R.x + 20); lR.setAttribute("y", R.y + 30);
+    put(glove, gpR || gp); put(hand, hp);
+    ball.setAttribute("opacity", bp ? 1 : 0); if (bp) put(ball, bp);
+    const lop = D.lo === "L" ? L : R;
+    loTxt.setAttribute("opacity", t >= T.lo0 - .1 && t < T.meet + .4 ? 1 : 0); loTxt.setAttribute("x", lop.x); loTxt.setAttribute("y", lop.y + 46);
+    // ---- text
+    $("bV").textContent = met ? `ゾーン${zone}` : "？";
+    $("bS").textContent = met ? `${D.txt}／${D.c}` : "EPで出会うまで、取り方は決めない";
+    let cap;
+    if (t < T.roll0) cap = "ステイの形で待つ";
+    else if (t < T.walk0) cap = "トサーが、正面にゆっくりなゴロを転がす";
+    else if (t < T.lo0) cap = "ゆっくり歩いて、そのままEPへ。歩くコースで、出会う形が変わる（EP＝打球と出会う点）";
+    else if (t < T.meet) cap = "EPで出会う形で、ラスト1が決まる（右足か左足かで、取り方が変わる）";
+    else if (t < T.sw0) cap = `出会った形はゾーン${zone}（ラスト1：${D.lo === "L" ? "左足" : "右足"}）。そのゾーンの取り方で捕る。push・pullは自由`;
+    else if (t < T.run0) cap = "スローイングスイッチ（右手はグラブに近づけない）";
+    else if (t < T.run1) cap = "そのまま、ランニングステップへ（投げる方へ走る）";
+    else cap = "1球で終わり。列の次の選手へ";
+    $("capTxt").textContent = cap;
+  }
+
+  function frame(ts) {
+    if (!playing) { last = null; return; }
+    if (last != null) t += (ts - last) / 1000 * speed;
+    last = ts; if (t > T.end) newBall();
+    render(); requestAnimationFrame(frame);
+  }
+  const play = () => { if (playing) return; playing = true; $("btnPlay").textContent = "❚❚ 一時停止"; requestAnimationFrame(frame); };
+  const pause = () => { playing = false; $("btnPlay").textContent = "▶ 再生"; };
+  $("btnPlay").onclick = () => playing ? pause() : play();
+  $("btnRestart").onclick = () => { newBall(); render(); play(); };
+  document.querySelectorAll("[data-z]").forEach(b => b.onclick = () => { document.querySelectorAll("[data-z]").forEach(x => x.classList.remove("on")); b.classList.add("on"); fixed = +b.dataset.z; newBall(); render(); play(); });
+  document.querySelectorAll("[data-sp]").forEach(b => b.onclick = () => { document.querySelectorAll("[data-sp]").forEach(x => x.classList.remove("on")); b.classList.add("on"); speed = +b.dataset.sp; play(); });
+  window.__show = (z, tt, sx) => { pause(); fixed = z; newBall(); if (sx != null) start.x = sx; t = tt; render(); };
+  newBall(); render(); requestAnimationFrame(frame);
+})();
+</script>
+<script>
+(() => {
+  const inFrame = window.self !== window.top;
+  if (inFrame) document.documentElement.classList.add("embed");
+  const post = () => { if (inFrame) parent.postMessage({ type: "anim-height", h: document.documentElement.scrollHeight }, "*"); };
+  window.addEventListener("load", post); window.addEventListener("resize", post);
+  if (window.ResizeObserver) new ResizeObserver(post).observe(document.body);
+  setTimeout(post, 300);
+})();
+</script>
+<script>
+(() => { const q = new URLSearchParams(location.search);
+  if (q.has("shot")) document.documentElement.classList.add("shot");
+  if (q.has("z")) setTimeout(() => __show(+q.get("z"), +(q.get("t") || 4.3), q.has("sx") ? +q.get("sx") : 300), 50);
+})();
+</script>
+</body>
+</html>
