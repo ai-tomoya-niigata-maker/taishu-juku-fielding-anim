@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>動く図｜スイッチドリル「一人」｜体修塾ゴロ捕球の教科書</title>
+<style>
+  :root{
+    --bg:#0d1b2a; --bg2:#0a0e1a; --card:#111827; --border:#1e3a5f;
+    --gold:#d4af37; --gold2:#f6c90e; --text:#f8fafc; --body:#e2e8f0; --sub:#94a3b8;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:linear-gradient(180deg,var(--bg2),var(--bg));color:var(--body);
+    font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",Meiryo,sans-serif;line-height:1.8;min-height:100vh}
+  .wrap{max-width:960px;margin:0 auto;padding:28px 16px 60px}
+  .label{font-size:12px;letter-spacing:.3em;color:var(--gold);font-weight:800;text-align:center}
+  h1{text-align:center;font-size:clamp(22px,4.6vw,30px);font-weight:900;color:var(--text);margin:4px 0}
+  .lead{text-align:center;color:var(--sub);font-size:14px;margin-bottom:16px}
+  .tabs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
+  .tab{font:inherit;cursor:pointer;border-radius:12px;padding:10px 6px;text-align:center;background:var(--card);border:1px solid var(--border);border-top:4px solid var(--gold);color:var(--sub);font-weight:800}
+  .tab.on{background:color-mix(in srgb,var(--gold) 22%,var(--card));box-shadow:0 0 0 2px var(--gold) inset;color:#fff}
+  .info{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+  .info > div{background:var(--card);border-radius:12px;padding:10px 12px;border-top:3px solid var(--gold)}
+  .info .k{font-size:11px;letter-spacing:.16em;color:var(--gold);font-weight:800}
+  .info .v{font-size:14px;font-weight:800;color:var(--text);line-height:1.5}
+  .caption{min-height:56px;margin:0 0 12px;padding:12px 18px;border-radius:14px;background:var(--card);border-left:5px solid var(--gold)}
+  .caption .txt{font-size:clamp(16px,3.4vw,19px);font-weight:900;color:var(--text);line-height:1.5}
+  .count{display:flex;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:10px 14px;margin-bottom:12px}
+  .cnt{font-weight:900;color:var(--text);font-size:15px}
+  .cnt small{font-size:12px;color:var(--sub);font-weight:700;margin-left:8px}
+  .panel{background:var(--card);border-radius:16px;border:1px solid var(--border);padding:10px 10px 6px}
+  .panel .pt{font-size:12px;letter-spacing:.16em;color:var(--sub);font-weight:700;padding:2px 6px 6px}
+  .panel svg{display:block;width:100%;height:auto}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;font-size:12.5px;color:var(--sub);margin-top:8px}
+  .legend i{display:inline-block;width:12px;height:12px;border-radius:50%;vertical-align:-1px;margin-right:5px}
+  .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;margin-top:14px}
+  .group{display:flex;gap:6px;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:6px 8px;flex-wrap:wrap}
+  .group span{font-size:12px;color:var(--sub);padding:0 4px;letter-spacing:.08em}
+  button.b{font:inherit;font-size:14px;font-weight:800;color:var(--text);background:#0b1424;border:1px solid var(--border);border-radius:8px;padding:7px 12px;cursor:pointer}
+  button.b.on{background:var(--gold);color:#0a0e1a;border-color:var(--gold)}
+  button:focus-visible{outline:2px solid var(--gold2);outline-offset:2px}
+  .stage{display:grid;grid-template-columns:1.2fr 1fr;gap:12px}
+  @media (max-width:720px){ .info{grid-template-columns:1fr} .stage{grid-template-columns:1fr} }
+  html.embed body{min-height:0}
+  html.embed .wrap{padding-top:8px;padding-bottom:12px}
+  html.embed .wrap > .label, html.embed .wrap > h1, html.embed .wrap > .lead{display:none}
+  html.shot .controls, html.shot .wrap > .label, html.shot .wrap > h1, html.shot .wrap > .lead{display:none}
+  html.shot .wrap{padding:10px 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="label">MOVING FIGURE｜SOLO DRILLS｜SWITCH</div>
+  <h1>スイッチドリル「一人」</h1>
+  <p class="lead">一人でできるシリーズ。立ったまま、ボールはグラブの中からスタート。グラブから右手へ、空中で渡す（スローイングスイッチ）。背中側を通すバージョンも。最終的には、ノールックで。（右投げ）</p>
+
+  <div class="tabs">
+    <button class="tab on" data-v="front">体の前を通す</button>
+    <button class="tab" data-v="back">背中側を通す</button>
+    <button class="tab" data-v="step">前を通す＋ステップ（ノールック）</button>
+  </div>
+
+  <div class="info">
+    <div><div class="k">ねらい</div><div class="v">スローイングスイッチを<br>一人でくり返す</div></div>
+    <div><div class="k">形</div><div class="v">立ったまま。右手は<br>グラブに近づけない</div></div>
+    <div><div class="k">最終目標</div><div class="v">ノールックで<br>（ボールを見ない）</div></div>
+  </div>
+
+  <div class="caption" aria-live="polite"><div class="txt" id="capTxt">-</div></div>
+  <div class="count"><div class="cnt" id="cnt">-</div></div>
+
+  <div class="stage">
+    <div class="panel"><div class="pt">前から見た図</div><svg id="front" viewBox="40 70 340 290" role="img" aria-label="前から見た姿勢"></svg></div>
+    <div class="panel"><div class="pt">上から見た図（ボールの通り道・目線）</div><svg id="top" viewBox="40 40 320 250" role="img" aria-label="上から見たボールの通り道と目線"></svg></div>
+  </div>
+  <div class="legend">
+    <span><i style="background:#8b5a2b"></i>グラブ</span><span><i style="background:#ffffff;border:1px solid #94a3b8"></i>ボール</span>
+    <span><i style="background:#f6c90e"></i>右手</span><span><i style="background:#7dd3fc"></i>目線</span>
+  </div>
+
+  <div class="controls">
+    <div class="group"><button class="b" id="btnPlay">❚❚ 一時停止</button><button class="b" id="btnRestart">↺ 最初から</button></div>
+    <div class="group" id="gPat" style="display:none"><span>右足</span><button class="b on" data-pt="base">基礎：左足の位置へ</button><button class="b" data-pt="dp">左足を通り過ぎて逆回り（セカンドゲッツー・セカンドは右）</button><button class="b" data-pt="cut">後ろへ（カットプレー）</button></div>
+    <div class="group" id="gEye"><span>目線</span><button class="b on" data-eye="look">ボールを見て</button><button class="b" data-eye="nolook">ノールック（最終目標）</button></div>
+    <div class="group"><span>再生</span><button class="b on" data-sp="1">ふつう</button><button class="b" data-sp="0.4">スロー</button></div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const NS = "http://www.w3.org/2000/svg";
+  const $ = id => document.getElementById(id);
+  const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const lerp = (a, b, k) => a + (b - a) * k;
+  const ease = k => k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+  const seg = (u, a, b) => clamp((u - a) / (b - a), 0, 1);
+  const lp = (A, B, k) => ({ x: lerp(A.x, B.x, k), y: lerp(A.y, B.y, k) });
+  const arc = (A, B, h, k) => ({ x: lerp(A.x, B.x, k), y: lerp(A.y, B.y, k) - 4 * h * k * (1 - k) });
+  const qb = (A, C, B, k) => ({ x: (1 - k) * (1 - k) * A.x + 2 * k * (1 - k) * C.x + k * k * B.x, y: (1 - k) * (1 - k) * A.y + 2 * k * (1 - k) * C.y + k * k * B.y });
+  const COL = { shirt: "#1e3a5f", shirt2: "#274b78", pants: "#d6dde6", skin: "#e2b48a", cap: "#14284a", glove: "#8b5a2b", L: "#3b82f6", R: "#ef4444", eye: "#7dd3fc" };
+  const limb = (g, a, b, w, color, cap = "round") => el("line", { x1: a.x, y1: a.y, x2: b.x, y2: b.y, stroke: color, "stroke-width": w, "stroke-linecap": cap }, g);
+
+  let v = "front", eye = "look", speed = 1, playing = true, gt = 0, last = null;
+  const CYC = 2.6;
+  // phases (0..1): prep .00-.24 / pass .24-.46 / hold .46-.66 / reset .66-1
+  const PH = { p0: .24, p1: .46, h1: .66 };
+
+  // ---------- FRONT VIEW ----------
+  const front = $("front");
+  el("rect", { x: 0, y: 0, width: 420, height: 380, fill: "#0e1a12" }, front);
+  el("rect", { x: 0, y: 300, width: 420, height: 80, fill: "#2a1f14" }, front);
+  const fG = el("g", {}, front);
+  const fNote = el("text", { x: 210, y: 92, fill: "#f6c90e", "font-size": 15, "font-weight": 900, "text-anchor": "middle" }, front);
+  const P = { L: { x: 232, y: 312 }, R: { x: 168, y: 312 }, hipR: { x: 183, y: 214 }, hipL: { x: 217, y: 214 }, kneeR: { x: 170, y: 263 }, kneeL: { x: 230, y: 263 }, shR: { x: 177, y: 162 }, shL: { x: 223, y: 162 }, head: { x: 200, y: 135 } };
+  // front-view positions
+  const F = {
+    front: { G: { x: 226, y: 226 }, Gp: { x: 226, y: 226 }, H: { x: 158, y: 236 } },
+    back:  { G: { x: 226, y: 226 }, Gp: { x: 238, y: 232 }, H: { x: 160, y: 232 } },
+  };
+  function drawFront(glove, hand, ball, behindArms, ballHidden, headDx, headDy) {
+    const g = fG; while (g.firstChild) g.removeChild(g.firstChild);
+    const lb = (x, y, txt, c) => { el("text", { x, y, fill: c, "font-size": 14, "font-weight": 900, "text-anchor": "middle" }, g).textContent = txt; };
+    const arms = () => {
+      const g0 = g; const ga = el("g", { opacity: behindArms ? .55 : 1 }, g0); { const g = ga;
+      const elbR = { x: Math.min(P.shR.x, hand.x) - 14, y: lerp(P.shR.y, hand.y, .5) };
+      limb(g, P.shR, elbR, 15, COL.shirt2); limb(g, elbR, hand, 12, COL.skin);
+      el("circle", { cx: hand.x, cy: hand.y, r: 8, fill: COL.skin, stroke: "#f6c90e", "stroke-width": 3 }, g);
+      const elbL = { x: Math.max(P.shL.x, glove.x) + 14, y: lerp(P.shL.y, glove.y, .45) };
+      limb(g, P.shL, elbL, 15, COL.shirt2); limb(g, elbL, glove, 12, COL.skin);
+      const gg = el("g", { transform: `translate(${glove.x} ${glove.y}) rotate(20)` }, g);
+      el("path", { d: "M-16 -6 Q-18 -26 -6 -30 Q2 -34 8 -28 Q20 -26 18 -8 Q16 12 0 16 Q-14 14 -16 -6 Z", fill: COL.glove, stroke: "#5b3a1a", "stroke-width": 2 }, gg);
+      el("ellipse", { cx: 1, cy: -8, rx: 7, ry: 9, fill: "#b07a45" }, gg);
+      if (behindArms) el("text", { x: glove.x + 30, y: glove.y + 30, fill: "#cbd5e1", "font-size": 12, "font-weight": 800, "text-anchor": "middle" }, g).textContent = "腰の後ろ"; }
+    };
+    const ballDot = () => { if (ball) el("circle", { cx: ball.x, cy: ball.y, r: 7, fill: "#fff", stroke: "#64748b", "stroke-width": 2 }, g); };
+    [[P.hipR, P.kneeR, P.R, COL.R, "右"], [P.hipL, P.kneeL, P.L, COL.L, "左"]].forEach(([hip, knee, foot, col, name]) => {
+      limb(g, hip, knee, 26, COL.pants); limb(g, knee, foot, 19, COL.pants); limb(g, lp(knee, foot, .5), foot, 18, col);
+      el("ellipse", { cx: foot.x, cy: foot.y + 5, rx: 16, ry: 9, fill: col, stroke: "#0f172a", "stroke-width": 2 }, g);
+      lb(foot.x + (name === "右" ? -28 : 28), foot.y + 12, name, col);
+    });
+    if (behindArms) { arms(); if (!ballHidden) ballDot(); }
+    el("path", { d: `M${P.shR.x} ${P.shR.y} L${P.shL.x} ${P.shL.y} L${P.hipL.x + 3} ${P.hipL.y} L${P.hipR.x - 3} ${P.hipR.y} Z`, fill: COL.shirt, stroke: "#0b1a30", "stroke-width": 2, "stroke-linejoin": "round" }, g);
+    const hd = { x: P.head.x + headDx, y: P.head.y + headDy };
+    el("circle", { cx: hd.x, cy: hd.y, r: 16, fill: COL.skin }, g);
+    el("path", { d: `M${hd.x - 17} ${hd.y - 3} Q${hd.x} ${hd.y - 27} ${hd.x + 17} ${hd.y - 3} Z`, fill: COL.cap }, g);
+    el("path", { d: `M${hd.x - 16} ${hd.y - 4} Q${hd.x} ${hd.y + 4} ${hd.x + 16} ${hd.y - 4}`, stroke: COL.cap, "stroke-width": 5, fill: "none" }, g);
+    if (!behindArms) { arms(); ballDot(); }
+    if (ballHidden && ball) el("circle", { cx: ball.x, cy: ball.y, r: 7, fill: "none", stroke: "#fff", "stroke-width": 2, "stroke-dasharray": "3 3", opacity: .8 }, g);
+  }
+
+  // ---------- TOP VIEW (player faces up) ----------
+  const top = $("top");
+  el("rect", { x: 0, y: 0, width: 400, height: 320, fill: "#2a1f14" }, top);
+  const tDefs = el("defs", {}, top);
+  const mk = el("marker", { id: "ah3", viewBox: "0 0 10 10", refX: 6, refY: 5, markerWidth: 4, markerHeight: 4, orient: "auto" }, tDefs);
+  el("path", { d: "M0 0 L10 5 L0 10 z", fill: COL.eye }, mk);
+  const tFront = el("text", { x: 200, y: 62, fill: "#94a3b8", "font-size": 13, "font-weight": 800, "text-anchor": "middle" }, top); tFront.textContent = "前";
+  const tBackT = el("text", { x: 200, y: 278, fill: "#94a3b8", "font-size": 13, "font-weight": 800, "text-anchor": "middle" }, top); tBackT.textContent = "背中側";
+  const tPath = el("path", { fill: "none", stroke: "rgba(255,255,255,.45)", "stroke-width": 2.5, "stroke-dasharray": "3 6" }, top);
+  const tGaze = el("line", { stroke: COL.eye, "stroke-width": 3, "stroke-dasharray": "6 4", "marker-end": "url(#ah3)" }, top);
+  const tGazeT = el("text", { fill: COL.eye, "font-size": 12, "font-weight": 900, "text-anchor": "middle" }, top);
+  const tArrow = el("line", { stroke: "#f6c90e", "stroke-width": 4, "marker-end": "url(#ah4)", opacity: 0 }, top);
+  const mk4 = el("marker", { id: "ah4", viewBox: "0 0 10 10", refX: 6, refY: 5, markerWidth: 4, markerHeight: 4, orient: "auto" }, tDefs);
+  el("path", { d: "M0 0 L10 5 L0 10 z", fill: "#f6c90e" }, mk4);
+  const tArrowT = el("text", { fill: "#f6c90e", "font-size": 12, "font-weight": 900, "text-anchor": "middle", opacity: 0 }, top);
+  const tGhL = el("ellipse", { rx: 10, ry: 17, fill: "none", stroke: COL.L, "stroke-width": 2, "stroke-dasharray": "4 3", opacity: 0 }, top);
+  const tGhR = el("ellipse", { rx: 10, ry: 17, fill: "none", stroke: COL.R, "stroke-width": 2, "stroke-dasharray": "4 3", opacity: 0 }, top);
+  const tFL = el("ellipse", { rx: 10, ry: 17, fill: COL.L, opacity: 0 }, top);
+  const tFR = el("ellipse", { rx: 10, ry: 17, fill: COL.R, opacity: 0 }, top);
+  const tBody = el("ellipse", { cx: 200, cy: 168, rx: 46, ry: 20, fill: "#1e3a5f", stroke: "#e2e8f0", "stroke-width": 2 }, top);
+  const tHead = el("circle", { cx: 200, cy: 166, r: 14, fill: COL.cap }, top);
+  const tGlove = el("ellipse", { rx: 15, ry: 12, fill: "#8b5a2b", stroke: "#5b3a1a", "stroke-width": 2 }, top);
+  const tHand = el("circle", { r: 8, fill: "#e2b48a", stroke: "#f6c90e", "stroke-width": 3 }, top);
+  const tBall = el("circle", { r: 7, fill: "#fff", stroke: "#64748b", "stroke-width": 2 }, top);
+  // top-view positions (screen-left = player's left = glove side)
+  const T = {
+    front: { G: { x: 158, y: 128 }, Gp: { x: 158, y: 128 }, H: { x: 250, y: 150 }, C: { x: 200, y: 104 } },
+    back:  { G: { x: 158, y: 128 }, Gp: { x: 150, y: 196 }, H: { x: 250, y: 196 }, C: { x: 200, y: 232 } },
+  };
+
+  // ---------- front + step (no-look) ----------
+  // top-view feet: L0/R0 = start. moves: right foot first (while the ball is in the air), then the left foot to the target
+  const ST = { L0: { x: 174, y: 190 }, R0: { x: 226, y: 190 } };
+  const PAT = {
+    base: { R: { x: 178, y: 194 }, L: { x: 132, y: 150 }, tgt: -135, nav: -45, rot: 1,
+            cap: ["右足を、左足の位置へ（ボールが空中にあるうちに）", "左足を、投げる方へ。基礎の形"], tTxt: "投げる方向（一塁）" },
+    dp:   { R: { x: 138, y: 204 }, Rc: { x: 176, y: 250 }, L: { x: 198, y: 200 }, tgt: 0, nav: 90, rot: 1,
+            cap: ["右足が、左足の後ろを通って、左足を通り過ぎる（ボールが空中にあるうちに）", "逆回りに方向転換。体をセカンド側へ向けて、左足をセカンドへ"], tTxt: "セカンド（逆回り）" },
+    cut:  { R: { x: 200, y: 232 }, L: { x: 184, y: 274 }, tgt: 90, nav: 180, rot: -1,
+            cap: ["右足を、後ろへ（ボールが空中にあるうちに）", "後ろへ向きを変えて、左足を投げる方へ"], tTxt: "後ろへ（カットプレー）" },
+  };
+  let pt = "base";
+  const angLerp = (a, b, k, dir) => { let d = b - a; if (dir > 0) { while (d < 0) d += 360; } else { while (d > 0) d -= 360; } return a + d * k; };
+  const MX = p => 181 + (200 - p.x) * 1.45, MY = p => 300 - (p.y - 190) * 0.55;
+  const map = (p, h = 0) => ({ x: MX(p), y: MY(p) - h });
+  function drawStepFront(fL, fR, nav, fgl, fhd, fball, lift) {
+    const g = fG; while (g.firstChild) g.removeChild(g.firstChild);
+    const nr = nav * Math.PI / 180, turn = Math.abs(Math.cos(nr));
+    const cx = (fL.x + fR.x) / 2, hipY = 214;
+    const hw = 17 * (1 - .6 * turn), sw = 23 * (1 - .65 * turn), lean = 0;
+    const Q = { hipR: { x: cx - hw, y: hipY }, hipL: { x: cx + hw, y: hipY } };
+    Q.kneeR = { x: lerp(Q.hipR.x, fR.x, .5) - 6, y: lerp(hipY, fR.y, .5) }; Q.kneeL = { x: lerp(Q.hipL.x, fL.x, .5) + 6, y: lerp(hipY, fL.y, .5) };
+    Q.shR = { x: cx - sw, y: hipY - 52 }; Q.shL = { x: cx + sw, y: hipY - 52 }; Q.head = { x: cx, y: hipY - 79 };
+    const lb = (x, y, txt, c) => { el("text", { x, y, fill: c, "font-size": 14, "font-weight": 900, "text-anchor": "middle" }, g).textContent = txt; };
+    [[Q.hipR, Q.kneeR, fR, COL.R, "右"], [Q.hipL, Q.kneeL, fL, COL.L, "左"]].sort((a, b) => a[2].y - b[2].y).forEach(([hip, knee, foot, col, name]) => {
+      limb(g, hip, knee, 26, COL.pants); limb(g, knee, foot, 19, COL.pants); limb(g, lp(knee, foot, .5), foot, 18, col);
+      el("ellipse", { cx: foot.x, cy: foot.y + 5, rx: 16, ry: 9, fill: col, stroke: "#0f172a", "stroke-width": 2, opacity: lift === name ? .6 : 1 }, g);
+      lb(foot.x + (name === "右" ? -26 : 26), foot.y + 26, name, col);
+    });
+    el("path", { d: `M${Q.shR.x} ${Q.shR.y} L${Q.shL.x} ${Q.shL.y} L${Q.hipL.x + 3} ${Q.hipL.y} L${Q.hipR.x - 3} ${Q.hipR.y} Z`, fill: COL.shirt, stroke: "#0b1a30", "stroke-width": 2, "stroke-linejoin": "round" }, g);
+    el("circle", { cx: Q.head.x, cy: Q.head.y, r: 16, fill: COL.skin }, g);
+    el("path", { d: `M${Q.head.x - 17} ${Q.head.y - 3} Q${Q.head.x} ${Q.head.y - 27} ${Q.head.x + 17} ${Q.head.y - 3} Z`, fill: COL.cap }, g);
+    const elbR = { x: Math.min(Q.shR.x, fhd.x) - 12, y: lerp(Q.shR.y, fhd.y, .5) };
+    limb(g, Q.shR, elbR, 15, COL.shirt2); limb(g, elbR, fhd, 12, COL.skin);
+    el("circle", { cx: fhd.x, cy: fhd.y, r: 8, fill: COL.skin, stroke: "#f6c90e", "stroke-width": 3 }, g);
+    const elbL = { x: Math.max(Q.shL.x, fgl.x) + 12, y: lerp(Q.shL.y, fgl.y, .45) };
+    limb(g, Q.shL, elbL, 15, COL.shirt2); limb(g, elbL, fgl, 12, COL.skin);
+    const gg = el("g", { transform: `translate(${fgl.x} ${fgl.y}) rotate(20)` }, g);
+    el("path", { d: "M-16 -6 Q-18 -26 -6 -30 Q2 -34 8 -28 Q20 -26 18 -8 Q16 12 0 16 Q-14 14 -16 -6 Z", fill: COL.glove, stroke: "#5b3a1a", "stroke-width": 2 }, gg);
+    el("ellipse", { cx: 1, cy: -8, rx: 7, ry: 9, fill: "#b07a45" }, gg);
+    if (fball) el("circle", { cx: fball.x, cy: fball.y, r: 7, fill: "#fff", stroke: "#64748b", "stroke-width": 2 }, g);
+  }
+  function renderStep() {
+    const u = (gt % CYC) / CYC, rep = Math.floor(gt / CYC) + 1, Pp = PAT[pt];
+    // timeline: hold .00-.12 / pass .12-.34 (right foot .12-.38) / left foot .40-.60 / hold .60-.78 / back .78-1
+    const kR = ease(seg(u, .12, .38)), kL = ease(seg(u, .40, .60)), kB = ease(seg(u, .80, 1));
+    const rPath = k => Pp.Rc ? qb(ST.R0, Pp.Rc, Pp.R, k) : lp(ST.R0, Pp.R, k);
+    let R = rPath(kR), L = lp(ST.L0, Pp.L, kL), lift = null;
+    if (kR > 0 && kR < 1) { lift = "右"; } if (kL > 0 && kL < 1) lift = "左";
+    if (kB > 0) { R = rPath(1 - kB); L = lp(Pp.L, ST.L0, kB); }
+    const navT = Pp.nav, rot = Pp.rot;
+    let nav = angLerp(-90, navT, ease(seg(u, .12, .60)), rot); if (kB > 0) nav = angLerp(navT, -90, kB, -rot);
+    const body = { x: (L.x + R.x) / 2, y: (L.y + R.y) / 2 - 18 };
+    const nr = nav * Math.PI / 180, f = { x: Math.cos(nr), y: Math.sin(nr) }, r = { x: -f.y, y: f.x };
+    const loc = (sd, fw) => ({ x: body.x + r.x * sd + f.x * fw, y: body.y + r.y * sd + f.y * fw });
+    const tg = loc(-30, 22), th = loc(34, 2);
+    const pass = u >= .12 && u < .34, kp = ease(seg(u, .12, .34));
+    let tb, fbh;
+    if (u < .12) { tb = tg; } else if (pass) { tb = lp(tg, th, kp); } else if (u < .80) { tb = th; } else { tb = u < .9 ? th : tg; }
+    // top view
+    const put = (e, q) => { e.setAttribute("cx", q.x); e.setAttribute("cy", q.y); };
+    [tFL, tFR].forEach(e => e.setAttribute("opacity", 1));
+    put(tFL, L); put(tFR, R); tFL.setAttribute("transform", `rotate(${nav + 90} ${L.x} ${L.y})`); tFR.setAttribute("transform", `rotate(${nav + 90} ${R.x} ${R.y})`);
+    tFL.setAttribute("opacity", lift === "左" ? .5 : 1); tFR.setAttribute("opacity", lift === "右" ? .5 : 1);
+    put(tGhL, ST.L0); put(tGhR, ST.R0); tGhL.setAttribute("opacity", .7); tGhR.setAttribute("opacity", .7);
+    put(tBody, body); put(tHead, body); tBody.setAttribute("transform", `rotate(${nav + 90} ${body.x} ${body.y})`);
+    put(tGlove, tg); put(tHand, th); put(tBall, tb);
+    [tFL, tFR, tGlove, tHand, tBall].forEach(e => top.appendChild(e));
+    tFront.setAttribute("opacity", 0); tBackT.setAttribute("opacity", 0);
+    tPath.setAttribute("d", Pp.Rc ? `M${ST.R0.x} ${ST.R0.y} Q${Pp.Rc.x} ${Pp.Rc.y} ${Pp.R.x} ${Pp.R.y}` : "");
+    tPath.setAttribute("stroke", Pp.Rc ? "rgba(239,68,68,.8)" : "rgba(255,255,255,.45)");
+    const ta = Pp.tgt * Math.PI / 180;
+    let a0 = { x: 200 + Math.cos(ta) * 70, y: 168 + Math.sin(ta) * 70 }, a1 = { x: 200 + Math.cos(ta) * 112, y: 168 + Math.sin(ta) * 112 };
+    if (pt === "cut") { a0 = { x: 290, y: 190 }; a1 = { x: 290, y: 246 }; }
+    if (pt === "dp") { a0 = { x: 262, y: 150 }; a1 = { x: 330, y: 150 }; }
+    tArrow.setAttribute("x1", a0.x); tArrow.setAttribute("y1", a0.y); tArrow.setAttribute("x2", a1.x); tArrow.setAttribute("y2", a1.y); tArrow.setAttribute("opacity", 1);
+    tArrowT.textContent = Pp.tTxt; if (pt === "cut") { tArrowT.setAttribute("x", 290); tArrowT.setAttribute("y", 270); } else if (pt === "dp") { tArrowT.setAttribute("x", 296); tArrowT.setAttribute("y", 136); } else { tArrowT.setAttribute("x", clamp(a1.x + Math.cos(ta) * 4, 110, 290)); tArrowT.setAttribute("y", a1.y + (Math.sin(ta) > 0 ? 18 : -10)); } tArrowT.setAttribute("opacity", 1);
+    // gaze: no-look. eyes go to the throw direction
+    const gz = angLerp(-90, Pp.tgt, ease(seg(u, .12, .60)), rot), gzr = (kB > 0 ? angLerp(Pp.tgt, -90, kB, -rot) : gz) * Math.PI / 180;
+    tGaze.setAttribute("x1", body.x); tGaze.setAttribute("y1", body.y); tGaze.setAttribute("x2", body.x + Math.cos(gzr) * 62); tGaze.setAttribute("y2", body.y + Math.sin(gzr) * 62);
+    tGazeT.textContent = "ノールック：目線は投げる方へ"; tGazeT.setAttribute("x", 200); tGazeT.setAttribute("y", 56);
+    // front view
+    const fL = map(L, lift === "左" ? 12 : 0), fR = map(R, lift === "右" ? 12 : 0);
+    const fgl = map(tg, 78), fhd = map(th, 62);
+    let fball;
+    if (u < .12) fball = fgl; else if (pass) { fball = lp(fgl, fhd, kp); fball.y -= 4 * 36 * kp * (1 - kp); } else if (u < .9) fball = fhd; else fball = fgl;
+    drawStepFront(fL, fR, nav, fgl, fhd, fball, lift);
+    fNote.textContent = pass ? "空中で渡す（ノールック）" : "ノールック";
+    let cap;
+    if (u < .12) cap = "体の前を通す＋ステップ。ボールは見ない（ノールック）";
+    else if (u < .38) cap = "スローイングスイッチ：" + Pp.cap[0];
+    else if (u < .62) cap = Pp.cap[1];
+    else if (u < .80) cap = "ステップまで。右足をいろいろなところにつけて、くり返す";
+    else cap = "元の位置へ戻って、次の1回";
+    $("capTxt").textContent = cap;
+    $("cnt").innerHTML = `${rep}回目<small>（前を通す＋ステップ／${{ base: "基礎", dp: "逆回り", cut: "後ろへ" }[pt]}／ノールック）</small>`;
+  }
+
+  function render() {
+    const stepMode = v === "step";
+    $("gPat").style.display = stepMode ? "" : "none"; $("gEye").style.display = stepMode ? "none" : "";
+    if (stepMode) return renderStep();
+    [tFL, tFR, tGhL, tGhR, tArrow, tArrowT].forEach(e => e.setAttribute("opacity", 0));
+    tFront.setAttribute("opacity", 1); tBackT.setAttribute("opacity", 1);
+    tPath.setAttribute("stroke", "rgba(255,255,255,.45)");
+    tBody.setAttribute("cx", 200); tBody.setAttribute("cy", 168); tBody.removeAttribute("transform"); tHead.setAttribute("cx", 200); tHead.setAttribute("cy", 166);
+    const u = (gt % CYC) / CYC, rep = Math.floor(gt / CYC) + 1, Fv = F[v], Tv = T[v], bk = v === "back";
+    let fg = Fv.G, fh = Fv.H, fb, tg = Tv.G, th = Tv.H, tb, cap, note = "", hidden = false, passing = false;
+    if (u < PH.p0) {
+      const k = ease(seg(u, .06, PH.p0));
+      fg = lp(Fv.G, Fv.Gp, k); tg = lp(Tv.G, Tv.Gp, k); fb = fg; tb = tg;
+      cap = bk ? "スタート：ボールはグラブの中。グラブを、背中側（左の腰の後ろ）へ" : "スタート：ボールはグラブの中。右手は体の右側で待つ（グラブに近づけない）";
+    } else if (u < PH.p1) {
+      const k = ease(seg(u, PH.p0, PH.p1)); passing = true;
+      fg = Fv.Gp; tg = Tv.Gp;
+      tb = qb(Tv.Gp, Tv.C, Tv.H, k);
+      fb = bk ? lp(Fv.Gp, Fv.H, k) : arc(Fv.Gp, Fv.H, 42, k); if (bk) { fb.y -= 10 * Math.sin(k * Math.PI); hidden = k > .12 && k < .88; }
+      cap = bk ? "背中側を通して、グラブから右手へ、空中で渡す" : "スローイングスイッチ：グラブから右手へ、空中で渡す";
+      note = bk ? "背中側を通す" : "空中で渡す";
+    } else if (u < PH.h1) {
+      fg = Fv.Gp; tg = Tv.Gp; fb = Fv.H; tb = Tv.H;
+      cap = "右手で受ける。右手は迎えに行かない";
+    } else {
+      const k = ease(seg(u, PH.h1, 1));
+      // reset: the right hand returns the ball to the glove in front
+      const fM = { x: 200, y: 218 }, tM = { x: 186, y: 122 };
+      fg = lp(Fv.Gp, Fv.G, ease(seg(u, PH.h1, .82))); tg = lp(Tv.Gp, Tv.G, ease(seg(u, PH.h1, .82)));
+      if (k < .5) { fh = lp(Fv.H, fM, k * 2); th = lp(Tv.H, tM, k * 2); fb = fh; tb = th; }
+      else { fh = lp(fM, Fv.H, (k - .5) * 2); th = lp(tM, Tv.H, (k - .5) * 2); fb = fg; tb = tg; }
+      cap = "ボールをグラブに戻して、くり返す（ここは次の1回の準備）";
+    }
+    // gaze
+    const nolook = eye === "nolook";
+    const tgt = passing || u >= PH.p1 && u < PH.h1 ? tb : tg;
+    const head = { x: 200, y: 166 };
+    let gEnd, hdx = 0, hdy = 0;
+    if (nolook) { gEnd = { x: 200, y: 70 }; tGazeT.textContent = "ノールック：前を見たまま"; }
+    else { const dx = tgt.x - head.x, dy = tgt.y - head.y, d = Math.hypot(dx, dy) || 1; gEnd = { x: head.x + dx / d * Math.min(d - 10, 70), y: head.y + dy / d * Math.min(d - 10, 70) }; tGazeT.textContent = "ボールを見る"; hdx = clamp(dx / 14, -6, 6); hdy = 4; }
+    tGaze.setAttribute("x1", head.x); tGaze.setAttribute("y1", head.y - 14); tGaze.setAttribute("x2", gEnd.x); tGaze.setAttribute("y2", gEnd.y);
+    tGazeT.setAttribute("x", nolook ? 200 : 300); tGazeT.setAttribute("y", nolook ? 84 : 76);
+    // ball path (top)
+    tPath.setAttribute("d", `M${Tv.Gp.x} ${Tv.Gp.y} Q${Tv.C.x} ${Tv.C.y} ${Tv.H.x} ${Tv.H.y}`);
+    const put = (e, p) => { e.setAttribute("cx", p.x); e.setAttribute("cy", p.y); };
+    put(tGlove, tg); put(tHand, th); put(tBall, tb);
+    drawFront(fg, fh, fb, bk && u < .82, bk && hidden, -hdx, hdy);
+    fNote.textContent = nolook ? (note ? note + "（ノールック）" : "ノールック") : note;
+    $("capTxt").textContent = cap + (nolook && passing ? "。ボールは見ない" : "");
+    $("cnt").innerHTML = `${rep}回目<small>（${bk ? "背中側を通す" : "体の前を通す"}／${nolook ? "ノールック" : "ボールを見て"}）</small>`;
+  }
+
+  function frame(ts) {
+    if (!playing) { last = null; return; }
+    if (last != null) gt += (ts - last) / 1000 * speed;
+    last = ts; if (gt > CYC * 10) gt = 0;
+    render(); requestAnimationFrame(frame);
+  }
+  const play = () => { if (playing) return; playing = true; $("btnPlay").textContent = "❚❚ 一時停止"; requestAnimationFrame(frame); };
+  const pause = () => { playing = false; $("btnPlay").textContent = "▶ 再生"; };
+  $("btnPlay").onclick = () => playing ? pause() : play();
+  $("btnRestart").onclick = () => { gt = 0; render(); play(); };
+  document.querySelectorAll("[data-v]").forEach(b => b.onclick = () => { v = b.dataset.v; document.querySelectorAll("[data-v]").forEach(x => x.classList.toggle("on", x.dataset.v === v)); gt = 0; render(); play(); });
+  document.querySelectorAll("[data-eye]").forEach(b => b.onclick = () => { eye = b.dataset.eye; document.querySelectorAll("[data-eye]").forEach(x => x.classList.toggle("on", x.dataset.eye === eye)); gt = 0; render(); play(); });
+  document.querySelectorAll("[data-sp]").forEach(b => b.onclick = () => { document.querySelectorAll("[data-sp]").forEach(x => x.classList.remove("on")); b.classList.add("on"); speed = +b.dataset.sp; play(); });
+  document.querySelectorAll("[data-pt]").forEach(b => b.onclick = () => { pt = b.dataset.pt; document.querySelectorAll("[data-pt]").forEach(x => x.classList.toggle("on", x.dataset.pt === pt)); gt = 0; render(); play(); });
+  window.__setT = v => { pause(); gt = v; render(); };
+  render(); requestAnimationFrame(frame);
+})();
+</script>
+<script>
+(() => {
+  const inFrame = window.self !== window.top;
+  if (inFrame) document.documentElement.classList.add("embed");
+  const post = () => { if (inFrame) parent.postMessage({ type: "anim-height", h: document.documentElement.scrollHeight }, "*"); };
+  window.addEventListener("load", post); window.addEventListener("resize", post);
+  if (window.ResizeObserver) new ResizeObserver(post).observe(document.body);
+  setTimeout(post, 300);
+})();
+</script>
+<script>
+(() => { const q = new URLSearchParams(location.search);
+  if (q.has("shot")) document.documentElement.classList.add("shot");
+  if (q.get("v")) setTimeout(() => document.querySelector(`[data-v="${q.get("v")}"]`).click(), 10);
+  if (q.get("pt")) setTimeout(() => document.querySelector(`[data-pt="${q.get("pt")}"]`).click(), 15);
+  if (q.get("eye")) setTimeout(() => document.querySelector(`[data-eye="${q.get("eye")}"]`).click(), 20);
+  if (q.has("t")) setTimeout(() => __setT(+q.get("t")), 50);
+})();
+</script>
+</body>
+</html>
